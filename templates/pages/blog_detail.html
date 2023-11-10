@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+{% load static %}
+{% load hitcount_tags %}
+
+{% block title %}{{blog.title}}{% endblock %}
+{% block content %}
+
+        
+        <div class="row">
+            <div class="col-sm-8 p-4">
+                {% if blog %}
+                    <div class="row text-center pt-4 mb-4">
+                        <h3>{{ blog.title }}</h3>
+                    </div>
+                    <div class="card border-0" >
+                        <div class="position-relative">
+                            <img src="{{ blog.image.url }}" class="card-img-top" alt="...">
+                            <a class="position-absolute top-0 start-0 bg-info text-white rounded-end mt-5 py-2 px-4 text-decoration-none" href="{% url 'blogs' 'category' blog.category %}">{{ blog.category }}</a>
+                        </div>
+                        <div class="info-blog px-5 py-3">
+                            <span class="me-5">
+                                <img src="{{ blog.author.profile_picture.url }}" alt="" class="rounded-circle me-2" width="28px">
+                                {{ blog.author }}
+                                {% if blog.author.status_teacher %}
+                                    <i class="fa-solid fa-crown ms-1" style="color: #ff9500;"></i>
+                                {% elif blog.author.status_student %}
+                                    <i class="fa-solid fa-graduation-cap ms-1" style="color: #000000;"></i>
+                                {% endif %}
+                            </span>  
+                            <span><i class="fa-regular fa-calendar-days me-2"></i>{{ blog.created_on|date:"d.m.Y" }}</span>
+                            <span><i class="fa-solid fa-star ms-3 me-1" style="color: #ffe100;"></i>{{ stars_sum }}</span>
+                            <span><i class="fa-solid fa-eye ms-3 me-1"></i>{% get_hit_count for blog %}</span>
+                        </div>
+                        <div class="card-body px-3">
+                            <h5 class="card-title"></h5>
+                            <p class="card-text"> {{ blog.content|safe }} </p>
+                        </div>
+                        <div class="tags px-3">
+                            {% for tag in blog.tags.all %}
+                            <span class="me-2 p-2"><a class="text-decoration-none" href="{% url 'blogs' 'tag' tag.name %}">#{{ tag.name }}</a></span>
+                            {% endfor %}
+                        </div> 
+                    </div>
+                {% endif %}
+                <div class="paginator mt-4">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-center">
+                            {% if next_blog %}
+                                <li class="page-item me-3">
+                                    <a class="page-link" href="{% url 'detail_blog' next_blog.slug %}">
+                                        <i class="fa-solid fa-angle-left me-2"></i>
+                                        {{ next_blog.title }}
+                                    </a>
+                                </li>
+                            {% endif %}
+                            {% if previous_blog %}
+                                <li class="page-item">
+                                    <a class="page-link" href="{% url 'detail_blog' previous_blog.slug %}">
+                                        {{ previous_blog.title }}
+                                        <i class="fa-solid fa-angle-right ms-2"></i>
+                                    </a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                </div>
+
+                <div class="review">
+                    <div class="section-title section-title-sm position-relative pb-3">
+                        <h3 class="mb-0">{{len_review}} Izohlar</h3>
+                    </div>
+                    {% for review in all_review %}
+                    <div class="d-flex mb-4 border-bottom">
+                        <img src="{{ review.user.profile_picture.url }}" class="img-fluid rounded" style="width: 45px; height: 45px;">
+                        <div class="ps-3">
+                            <h6>{{ review.user }} 
+                                <small><i class="fa-solid fa-star ms-4 me-1" style="color: #ffe100;"></i>{{ review.stars_given }}</small>
+                                <small><i class="fa-regular fa-calendar-days ms-4 me-2"></i>{{ review.created_at|date:"d.m.Y" }}</small>
+                            </h6>
+                            <p>{{ review.comment }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <div class="col-12 col-md-6 review-form">
+                    <div class="m-4 mt-0">
+                        <div class='rating p-3 fs-5'>
+                            <input type='radio' name='star' id="star1" value="5"/><label for="star1"><i class="fa-solid fa-star"></i></label>
+                            <input type='radio' name='star' id="star2" value="4"/><label for="star2"><i class="fa-solid fa-star"></i></label>
+                            <input type='radio' name='star' id="star3" value="3"/><label for="star3"><i class="fa-solid fa-star"></i></label>
+                            <input type='radio' name='star' id="star4" value="2"/><label for="star4"><i class="fa-solid fa-star"></i></label>
+                            <input type='radio' name='star' id="star5" value="1"/><label for="star5"><i class="fa-solid fa-star"></i></label>
+                        </div>
+                        <form action="{% url 'detail_blog' blog.slug %}" method="post">  
+                            {% csrf_token %}
+                            <span>Izoh yozing</span>
+                            {{ review_form.comment }}
+                            <div class="d-none stars_given">
+                                {{ review_form.stars_given }}
+                            </div>
+                            {% if request.user.is_authenticated %}
+                                <button class="btn btn-outline-primary m-3" type="submit">Yuborish</button>
+                            {% else %}
+                                <a class="btn btn-outline-primary m-3" href="{% url 'authenticated' %}">Yuborish</a> 
+                            {% endif %}           
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4 py-4">
+                <div class="row categories bg-white p-4 mb-3">
+                    <div class="d-flex mb-4">
+                        <h5 class="">Turkum</h5>
+                        <span class="ms-2 p-1 px-2 bg-info rounded text-white">{{ blog.category }}</span>
+                    </div>
+                    <ul class="list-unstyled">
+                        <li class="mb-3 border-bottom"><a class="text-decoration-none text-dark" href="{% url 'blogs' 'all' ' ' %}"> Barchasi </a></li>
+                        {% for blog in category_blog %}
+                            <li class="mb-3 border-bottom"><a class="text-decoration-none text-dark" href="{% url 'detail_blog' blog.slug %}">{{ blog.title }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="row tags bg-white p-4">
+                    <h5 class="mb-4">Kalit so'zlar</h5>
+                    <div class="container text-center">
+                        <div class="row g-2 justify-content-center">
+                            {% for tag in tags %}
+                                <div class="col border border-success-subtle me-2 p-2"><a class="text-decoration-none" href="{% url 'blogs' 'tag' tag.name %}">#{{ tag.name }}</a></div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+{% endblock %}

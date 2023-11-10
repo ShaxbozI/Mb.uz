@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Tadbirlar{% endblock %}
+{% block content %}
+
+    <div class="row text-center mb-4 pt-4">
+        <h1>Tadbirlar</h1>
+    </div>
+    <div class="row">
+        <!-- Filter -->
+        <div class="col-md-3 p-2">
+            <div class="row bg-white border mx-1">
+                <h4 class="text-center mb-4">Saralash</h4>
+                <div class="con-12 mb-1 mb-md-5">
+                    <h5>Holat</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-3 border-bottom"><a class="text-decoration-none text-dark" href="{% url 'events' 'all' %}">Barchasi</a></li>
+                        <li class="mb-3 border-bottom"><a class="text-decoration-none text-dark" href="{% url 'events' 'gte' %}">Rejalashtirilgan</a></li>
+                        <li class="mb-3 border-bottom"><a class="text-decoration-none text-dark" href="{% url 'events' 'lte' %}">Bo'lib o'tgan</a></li>
+                    </ul>
+                </div>
+                <div class="col-12 mb-5">
+                    <h5>Izlash</h5>
+                    <form class="d-flex" role="search" method="get" action="{% url 'events' 'all' %}">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Izlash..." aria-label="Recipient's username" aria-describedby="button-addon2" name="q" required>
+                            <button class="btn btn-outline-secondary" type="submit" id="button-addon2"><i class="bi bi-search"></i></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Filter -->
+
+        <div class="col-md-9 py-2">
+            <div class="event-card border bg-white p-4">
+                {% for event in events %}
+                    <div class="row border-bottom border-info mb-4 position-relative overflow-hidden">
+                        <div class="col-lg-5 col-sm-12">
+                            <div class="position-relative">
+                                <img src="{{event.image.url}}" class="w-100" alt="">
+                                <div class="events-date">
+                                    <div class="font-size28">{{ event.start_data|date:"d" }}</div>
+                                    <div class="font-size14">{{ event.start_data|date:"M" }}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-7 col-sm-12">
+                            <div class="md-padding-50px-lr sm-padding-30px-all xs-padding-25px-all">
+                                <h3 class="margin-15px-bottom md-margin-10px-bottom font-weight-500">
+                                    {{ event.title }}
+                                </h3>
+                                <ul class="event-time margin-10px-bottom md-margin-5px-bottom">
+                                    <li><i class="far fa-clock margin-10px-right"></i>{{ event.start_data|date:"d.M.Y H:i" }}</li>
+                                    <li><i class="fas fa-user margin-5px-right"></i> Speaker : John Sminth</li>
+                                </ul>
+                                <p>{{ event.description }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            
+            <!-- Paginator -->
+            <div class="paginator mt-4">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                        {% if events.has_previous or events.has_next %}
+                            {% if events.has_previous %}
+                                <li class="page-item">
+                                    <a class="page-link" href="{% url 'events' 'all' %}?page=1">
+                                        <i class="fa-solid fa-angles-left"></i>
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="{% url 'events' 'all' %}?page={{ events.previous_page_number }}">
+                                        <i class="fa-solid fa-angle-left"></i>
+                                    </a>
+                                </li>
+                            {% endif %}
+                            <li class="page-item"><a class="page-link" href="#">
+                                {{ events.number }} / {{ events.paginator.num_pages }}
+                            </a></li>
+                            {% if events.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link" href="{% url 'events' 'all' %}?page={{ events.next_page_number }}">
+                                        <i class="fa-solid fa-angle-right"></i>
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="{% url 'events' 'all' %}?page={{ events.paginator.num_pages }}">
+                                        <i class="fa-solid fa-angles-right"></i>
+                                    </a>
+                                </li>
+                            {% endif %}
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+            <!-- Paginator -->
+        </div>
+    </div>
+
+{% endblock %}

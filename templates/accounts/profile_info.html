@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+
+{% block title %}Hisob malumotlari{% endblock %}
+{% block content %}
+<div class="profile-page my-2 my-md-5">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-12 col-md-5">
+            <div class="image-card text-center bg-white rounded px-3 py-3">
+                <img src="{{ user.profile_picture.url }}" alt="Admin" class="rounded-circle" width="150" height="150">
+                <div class="card-body mt-3">
+                    <h4>{{ user.username }}</h4>
+                    <p class="text-secondary mb-1">Ro'yhatdan o'tilgan {{ user.date_joined|date:"d.m.Y" }}</p>
+                    <p class="text-secondary mb-1">{{ user.email }}</p>
+                    <p class="text-secondary mb-1">
+                        Sertifikat: 
+                        {% if user.certificate_number %}
+                            {{ user.certificate_number }}
+                        {% else %}
+                             Olinmagan
+                        {% endif %}
+                    </p>
+                    <!-- <p class="text-muted font-size-sm">Bay Area, San Francisco, CA</p> -->
+                </div>
+                <div class="switch-btn bg-white rounded p-2 p-md-4">
+                    <ul class="p-0 list-group">
+                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <span class="certificate-btn">Sertifikatim</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <span class="blog-btn">Maqolalarim</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap {% if message %}text-warning{% endif %}">
+                            <span class="personal-btn">Hisob malumotlari</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-7 info-card mt-3 mt-md-0 ps-0 d-none">
+            <div class="certificate pt-0 pt-md-0 p-2 p-md-4 text-center">
+                <p>
+                    Hozirda siz sertifikat olmagansiz uni olish uchun siz <a target="_blank" href="https://mohirdev.uz">mohirdev.uz</a> o'quvchisi bo'lishingiz va kurslarni tugatgach 
+                    <a href="{% url 'certificate' %}">ariza</a> qoldirishingiz kerak bo'ladi.
+                </p>
+            </div>
+        </div>
+        <div class="col-12 col-md-7 info-card mt-3 mt-md-0 ps-0 d-none">
+            <div class="blog pt-0 pt-md-0 p-2 p-md-4 text-center">
+                <h5 class="text-center">Barcha Maqolalarim.</h5>
+                {% if blogs %}
+                    {% for blog in blogs %}
+                        <div class="review border bg-body-tertiary rounded mb-2 px-2 py-1">
+                            <div class="position-relative">
+                                <a href="{% url 'detail_blog' blog.slug %}" class="text-warning text-decoration-none d-block text-start">{{ blog.title }}</a>
+                                <div class="position-absolute bottom-0 end-0">
+                                    <a href="{% url 'edit_blog' blog.id %}" class="me-2 text-success text-decoration-none">
+                                        <i class="fa-regular fa-pen-to-square" style="color: #1c821e;"></i>
+                                    </a>
+                                    <span class="delete_btn cursor-pointer">
+                                        <i class="fa-solid fa-trash-can" style="color: #511f1f;"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="d-none delete_info">
+                                <p class="text-secondary text-center m-0 p-0">
+                                    Ushbu blog o'chirib tashlansinmi?
+                                </p>
+                                <a href="{% url 'delete' blog.id %}" class="text-danger text-decoration-none me-3">
+                                    O'chirish
+                                </a>
+                                <span class="ms-3 exit_btn text-info cursor-pointer">
+                                    Qaytish
+                                </span>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>
+                        Sizda sertifikat mavjud emas va siz hozirda bir qancha imkoniyatlardan foydalana olmaysiz.
+                        Ushbu saytda barcha imkoniyatlardan foydalanish uchun sertifikat olishingiz kerak.
+                    </p>
+                    <a href="{% url 'certificate' %}">Sertifikare olish uchun ariza yuborish</a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-12 col-md-7 info-card mt-3 mt-md-0 ps-0 d-none">
+            <div class="personal-info pt-0 pt-md-0 p-2 p-md-4">
+                <div class="user-info bg-white rounded">
+                    <ul class="p-0 list-group">
+                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <span class="text-secondary">Ism</span>
+                            <h6 class="mb-0">
+                                {{ user.first_name }}
+                            </h6>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <span class="text-secondary">Familiya</span>
+                            <h6 class="mb-0">
+                                {{ user.last_name }}
+                            </h6>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <span class="text-secondary">Email</span>
+                            <h6 class="mb-0">
+                                {{ user.email }}
+                            </h6>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <span class="text-secondary">Telefon</span>
+                            <h6 class="mb-0">
+                                {{ user.phone_number }}
+                            </h6>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <span class="text-secondary">Kurs</span>
+                            <h6 class="mb-0">
+                                {% if user.course_name %}
+                                    {{ user.course_name }}
+                                {% else %}
+                                    Sertifikat olgandan so'ng avtomatik qo'shiladi.
+                                {% endif %}
+                            </h6>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <span class="text-secondary">Sertifikate</span>
+                            <h6 class="mb-0">
+                                {% if user.certificate_number %}
+                                    {{ user.certificate_number }}
+                                {% else %}
+                                    <a href="{% url 'certificate' %}">Ariza berish</a>
+                                {% endif %}
+                            </h6>
+                        </li>
+                    </ul>
+                </div>
+                <span class="btn btn-outline-primary w-100 profile-edit mt-2">Malumotlarni o'zgartirish</span>
+            </div>
+        </div>
+        <div class="col-12 col-md-7 personal-info-edit mt-3 mt-md-0 ps-0 {% if not message %}d-none{% endif %}">
+            <div class="pt-0 pt-md-0 p-2 p-md-4">
+                <h5 class="text-center">
+                    Shaxsiy malumotlarni o'zgartirish
+                </h5>
+                <form action="" method="post"> 
+                    {% csrf_token %}
+                    <!-- {{form}} -->
+                    <div class="input-group my-3">
+                        <span class="input-group-text mt-1">Foydalanuvchi nomi</span>
+                        {{form.username}}
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-text mt-1">Ism Familiya</span>
+                        {{form.first_name}}
+                        {{form.last_name}}
+                    </div>
+                    <div class="input-group my-3">
+                        <span class="input-group-text mt-1">Email</span>
+                        {{form.email}}
+                    </div>
+                    <div class="mt-2">
+                        <div class="feedback fs-6 text-body-tertiary d-flex justify-content-between text-center">
+                            <span>Hozirgi rasm</span>
+                            <a href="{{ user.profile_picture.url }}" class="text-warning d-block text-center">{{ user.profile_picture.url }}</a>
+                        </div>
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="id_profile_picture">Tanlang</label>
+                            <input type="file" class="form-control" id="id_profile_picture">
+                        </div>
+                    </div>
+                    <span class="text-danger d-block text-center p-2">{{ message }}</span>
+                    <button type="submit" class="btn btn-outline-primary w-100 mt-2">O'zgartirish</button>
+                </form>
+                <a href="#" class="d-block text-center text-decoration-none py-3 fs-5">Telefon raqamni almashtirish!</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

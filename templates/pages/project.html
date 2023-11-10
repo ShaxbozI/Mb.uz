@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Loyihalar{% endblock %}
+{% block content %}
+    
+    <div class="projects-page mt-5">
+        <div class="row flex-row-reverse justify-content-center ">
+            <h3 class="text-center mb-5">Mohir o'quvchilarning loyihalari bilan tanishing</h3>
+            <div class="col-12 col-md-9 px-3 px-md-5">
+                <div class="dropdown">
+                    <button class="btn border w-100 d-flex justify-content-between" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        {% if course %}
+                            {{ course }}
+                        {% else %}
+                            Kurs bo'yicha saralash
+                        {% endif %} 
+                        <i class="fa-solid fa-angle-down my-auto"></i>
+                    </button>
+                    <div class="position-relative">
+                        <ul class="dropdown-menu w-100">
+                            <li><a class="dropdown-item" href="{% url 'projects' 'all' ' ' %}">Barchasi</a></li>
+                            {% for course in courses %}
+                                <li><a class="dropdown-item" href="{% url 'projects' ' ' course.name %}">{{ course }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                {% for project in projects %}
+                    <div class="card mt-4">
+                        <div class="img-card">
+                            <img src="{{ project.image.url }}" class="card-img-top" alt="...">
+                            <a href="{{ project.project_link }}" class="card-link">Loyihani ko'rish</a>
+                        </div>
+                        <div class="card-body p-2 pt-0">
+                            <h5 class="card-title">{{ project.title }}</h5>
+                            <p class="card-text mb-1">{{ project.description }}</p>
+                            <div class="tech-project">
+                                {% for techno in project.technologies.all %}
+                                    <a href="{% url 'projects' 'techno' techno.technology %}"><span>{{ techno }}</span></a> 
+                                {% endfor %}
+                                <span>css</span> 
+                                <span>html5</span> 
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <!-- Filter -->
+            <div class="col-12 col-md-3 pe-md-0 p-3">
+                <div class="technologies">
+                    <h4>Texnalogiyalar</h4>
+                    <div class="">
+                        {% for techno in technology %}
+                            <a href="{% url 'projects' 'techno' techno.technology %}"><span>{{ techno }}</span></a>  
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <!-- Filter end -->
+        </div>
+    </div>
+
+{% endblock %}

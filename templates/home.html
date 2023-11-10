@@ -1,0 +1,332 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}MohirBitiruvchi{% endblock %}
+{% block content %}
+<!--  script owl carusel  -->
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+
+<!-- ALUMNI -->
+<div class="alumni container-fluid">
+
+    <div class="row g-5 py-5 alumni">
+        <div class="col-lg-6 text-center text-lg-start">
+            <h1 class="text-white mb-4 animated zoomIn">Bizning muvofaqiyatli bitiruvchilardan biri bo'ling</h1>
+            <p class="text-white pb-3 animated zoomIn">
+                Siz zamonaviy kasblarni o'rganishni istaysizmi? Bizda siz uchun barchasi mavjud
+                qulay takliflar va malakali ustozlardan sifatli praktikum darslari 
+                 shu bilan birga mentorlarning doimiy qo'llab quvatlovi hamda siz kabi bilimga chanqoq talabar. 
+                Hoziroq ro'yhatdan o'ting va boshlang. Agar talabamiz bo'lsangiz va kurslarni muvofaqiyatli tomomlagan bo'lsangiz 
+                sertifikat uchun ariza yuborishingiz mumkin.
+            </p>
+            <a href="https://mohirdev.uz/#kasblar" class="btn btn-light py-sm-3 px-sm-5 rounded-pill me-3 animated slideInLeft">Kasblar</a>
+            <a href="{% url 'certificate' %}" class="btn btn-outline-light py-sm-3 px-sm-5 rounded-pill animated slideInRight">Sertifikat</a>
+        </div>
+        <div class="col-lg-6 text-center text-lg-start">
+            <img class="img-fluid" src="{% static 'image/top-chat.png' %}" alt="">
+        </div>
+    </div>
+
+</div>
+
+<!-- EVENTS -->
+<div class="events container-fluid">
+    <h1>Tadbirlar</h1>
+    <div class="row align-items-center event-block no-gutters margin-40px-bottom p-3">
+        {% for event in events %}
+            <div class="col-lg-5 col-sm-12">
+                <div class="position-relative">
+                    <img src="{{event.image.url}}" class="w-100" alt="">
+                    <div class="events-date">
+                        <div class="font-size28">{{ event.start_data|date:"d" }}</div>
+                        <div class="font-size14">{{ event.start_data|date:"M" }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-7 col-sm-12">
+                <div class="padding-60px-lr md-padding-50px-lr sm-padding-30px-all xs-padding-25px-all">
+                    <h3 class="margin-15px-bottom md-margin-10px-bottom font-weight-500">
+                        {{ event.title }}
+                    </h3>
+                    <ul class="event-time margin-10px-bottom md-margin-5px-bottom">
+                        <li><i class="far fa-clock margin-10px-right"></i>{{ event.start_data|date:"d.m.Y H:i" }}</li>
+                        <li><i class="fas fa-user margin-5px-right"></i> Speaker : John Sminth</li>
+                    </ul>
+                    <p>{{ event.description }}</p>
+                    <a class="butn small margin-10px-top md-no-margin-top" href="{% url 'events' 'all' %}">Barchasini ko'rish <i class="fas fa-long-arrow-alt-right margin-10px-left"></i></a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+<!-- PROJECTS -->
+<div class="project container-fluid">
+    <h1 class="text-center">O'quvchilarning Loyihalari</h1>
+    <div class="row rounded-4 bg-body-tertiary px-0">
+        <div class="p-0 p-md-2">
+
+            <div id="carouselExampleIndicators" class="carousel slide">
+                <div class="carousel-inner">
+                    {% for project in projects|slice:':3' %}
+                        <div class="carousel-item {% if forloop.first %} active {% endif %}">
+                            <div class="row g-5 align-items-center p-4">
+                                <div class="col-lg-7 wow fadeIn" data-wow-delay="0.1s" style="visibility: visible; animation-delay: 0.1s; animation-name: fadeIn;">
+                                    <div class="about-img position-relative overflow-hidden p-5 pe-0">
+                                        <img class="img-fluid w-100 z-2 position-relative" src="{{ project.image.url }}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-5 wow fadeIn px-2 px-md-3" data-wow-delay="0.5s" style="visibility: visible; animation-delay: 0.5s; animation-name: fadeIn;">
+                                    <h1 class="mb-4">{{ project.title }}</h1>
+                                    <p class="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo magna dolore erat amet</p>
+                                    {% for techno in project.technologies.all %}
+                                        <p class="mb-0"><i class="fa fa-check text-primary me-3"></i>{{ techno.technology }}</p>
+                                    {% endfor %}
+                                    <a class="btn btn-primary py-3 px-5 mt-3" href="{{ project.project_link }}">Loyihani ko'rish</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <button class="carousel-control-prev carusel_btn ms-4" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next carusel_btn me-4" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<!-- STUDENT -->
+<div class="student container-fluid">
+    <h1>So'ngi bitiruvchimiz</h1>
+
+    <div class="bg-light rounded p-3">
+        <div class="bg-white rounded p-4" style="border: 1px dashed rgba(0, 185, 142, .3)">
+            {% for student in students|slice:':1' %}
+            <div class="row g-5 align-items-center">
+                <div class="col-md-4 wow fadeIn" data-wow-delay="0.1s" style="visibility: visible; animation-delay: 0.1s; animation-name: fadeIn;">
+                    <img class="img-fluid rounded w-100" src="{{ student.image.url }}" alt="">
+                </div>
+                <div class="col-md-8 wow fadeIn" data-wow-delay="0.5s" style="visibility: visible; animation-delay: 0.5s; animation-name: fadeIn;">
+                    <div class="mb-4">
+                        <h1 class="mb-3">{{ student.get_full_name }}</h1>
+                        <p>Eirmod sed ipsum dolor sit rebum magna erat. Tempor lorem kasd vero ipsum sit sit diam justo sed vero dolor duo.</p>
+                    </div>
+                    <a href="{{ student.linkedin }}" class="py-3 px-4 text-decoration-none">
+                        <i class="fab fa-linkedin me-2"></i>
+                    </a>
+                    <a href="mailto:{{ student.email_link }}" class="py-3 px-4 ps-0 text-decoration-none">
+                        <i class="fa-regular fa-envelope me-2"></i>{{ student.email_link }}
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+      
+</div>
+
+<!-- TEACHER -->
+<div class="wrapper teachers container-fluid">
+    <div class="header_section d-flex justify-content-between mb-4">
+        <h2 class="text-center">O'qituvchilar</h2>
+        <a href="{% url 'teachers' %}" class="text-decoration-none">
+            <h4 class=" text-info me-3">Ko'proq<i class="fa-solid fa-angle-right ms-2"></i></h4>
+        </a>
+    </div>
+    <div class="carousel_teacher owl-carousel">
+        {% for teacher in teachers %}
+        <div class="card">
+            <div class="profile-card mx-auto">
+                <div class="img">
+                    <img src="{{ teacher.image.url }}">
+                </div>
+                <div class="caption">
+                    <h4>{{ teacher.get_full_name }}</h4>
+                    <p>{{ teacher.course }}</p>
+                    <div class="social-links">
+                        <a href="{{ teacher.linkedin }}"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        <div class="card">
+            <div class="profile-card mx-auto">
+                <div class="img">
+                    <img src="https://1.bp.blogspot.com/-8c7QTLoyajs/YLjr2V6KYRI/AAAAAAAACO8/ViVPQpLWVM0jGh3RZhh-Ha1-1r3Oj62wQCNcBGAsYHQ/s16000/team-1-3.jpg">
+                </div>
+                <div class="caption">
+                    <h3>Vin Diesel</h3>
+                    <p>Senior App Developer</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="profile-card mx-auto">
+                <div class="img">
+                    <img src="https://1.bp.blogspot.com/-AO5j2Y9lzME/YLjr3mxiqAI/AAAAAAAACPE/KAaYYTtQTrgBE3diTbxGoc4U4fCGx-C2gCNcBGAsYHQ/s16000/team-1-4.jpg">
+                </div>
+                <div class="caption">
+                    <h3>Tom Cruise</h3>
+                    <p>Full Stact Developer</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="profile-card mx-auto">
+                <div class="img">
+                    <img src="https://1.bp.blogspot.com/-vhmWFWO2r8U/YLjr2A57toI/AAAAAAAACO4/0GBonlEZPmAiQW4uvkCTm5LvlJVd_-l_wCNcBGAsYHQ/s16000/team-1-2.jpg">
+                </div>
+                <div class="caption">
+                    <h3>David Corner</h3>
+                    <p>Front End Developer</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="profile-card mx-auto">
+                <div class="img">
+                    <img src="https://1.bp.blogspot.com/-8c7QTLoyajs/YLjr2V6KYRI/AAAAAAAACO8/ViVPQpLWVM0jGh3RZhh-Ha1-1r3Oj62wQCNcBGAsYHQ/s16000/team-1-3.jpg">
+                </div>
+                <div class="caption">
+                    <h3>Vin Diesel</h3>
+                    <p>Senior App Developer</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="profile-card mx-auto">
+                <div class="img">
+                    <img src="https://1.bp.blogspot.com/-AO5j2Y9lzME/YLjr3mxiqAI/AAAAAAAACPE/KAaYYTtQTrgBE3diTbxGoc4U4fCGx-C2gCNcBGAsYHQ/s16000/team-1-4.jpg">
+                </div>
+                <div class="caption">
+                    <h3>Tom Cruise</h3>
+                    <p>Full Stact Developer</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+</div>
+
+<!-- CERTIFICATE -->
+<div class="certificate container-fluid">
+    <h1>Bitiruvchi Sertifikati</h1>
+    <div class="row mt-5 bg-body-tertiary rounded-4 p-3 flex-row">
+        <div class="col-12 col-lg-6 fw-bold">
+            <div class="row h-100 align-items-between">
+                <div class="col-12 align-self-center">
+                    <p class="text-uppercase text-primary text-center">Mohir Bitiruvchilar uchun sertifikat</p>
+                    <h1 class="fs-1 text-center text-md-end">
+                        <a class="text-decoration-none" href="https://mohirdev.uz/">Mohirdev</a> 
+                         platformasi o'quvhilarini reyting baholash hamda sertifikat bilan taqdirlash
+                    </h1>
+                </div>
+                <div class="col-12 align-self-end text-center my-4 text-md-end">
+                    <a href="{% url 'certificate' %}" class="btn btn-primary info-galery-btn px-5 fw-bold py-2">Sertifikat oling</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-6">
+            <img class="w-100" src="{% static 'image/Sertifikat.jpeg' %}" alt="" srcset="">
+        </div>
+    </div>
+</div> 
+
+<!-- STATISTICS -->
+<div class="statistics container-fluid">
+    <div class="row text-center bg-light">
+        <div class="col-12 col-md-6 col-lg-3 p-3">
+            <h4 class="text-primary">O'quvchilar</h4>
+            <div>
+                <i class="bi bi-people"></i> 
+                <i class="ms-3 fs-3 text-warning">4578</i>
+            </div>
+            <p>Ayni vaqtga qadar ro'yhatdan o'tgan foydalanuvchilar</p>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3 p-3">
+            <h4 class="text-primary">Sertifikat</h4>
+            <div>
+                <i class="bi bi-patch-check"></i> 
+                <i class="ms-3 fs-3 text-warning">3251</i>
+            </div>
+            <p>Sertifikat olishga muvofaq bo'lgan talabalar</p>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3 p-3">
+            <h4 class="text-primary">Tadbirlar</h4>
+            <div>
+                <i class="bi bi-calendar2-event"></i>
+                <i class="ms-3 fs-3 text-warning">152</i>
+            </div>
+            <p>O'tkazilgan ilmiy uchrashuv va tadbirlar</p>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3 p-3">
+            <h4 class="text-primary">Media</h4>
+            <div>
+                <i class="bi bi-collection-play"></i> 
+                <i class="ms-3 fs-3 text-warning" data-toggle="counter-up">5210</i>
+            </div>
+            <p>Bizning talabalar hamda tadbirlardan lavhalar</p>
+        </div>
+    </div>
+</div>
+
+<!-- PARTNER -->
+<div class="partner container-fluid">
+    <div class="row mt-5">
+        <div class="col-12 text-center">
+            <h2>Bizning hamkorlar</h2>
+        </div>
+        <div class="carousel_teacher owl-carousel">
+            <div class="card"><img src="{% static 'image/partner/partner-1.png' %}" class="" alt="..."></div>
+            <div class="card"><img src="{% static 'image/partner/partner-2.png' %}" class="" alt="..."></div>
+            <div class="card"><img src="{% static 'image/partner/partner-3.png' %}" class="" alt="..."></div>
+            <div class="card"><img src="{% static 'image/partner/partner-4.png' %}" class="" alt="..."></div>
+            <div class="card"><img src="{% static 'image/partner/partner-5.png' %}" class="" alt="..."></div>
+            <div class="card"><img src="{% static 'image/partner/partner-6.png' %}" class="" alt="..."></div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script> -->
+
+{% endblock %}

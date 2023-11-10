@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> {% block title %} {% endblock %} </title>
+
+    <!-- Style.css -->
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/gallery.css' %}">
+    <link rel="stylesheet" href="{% static 'css/about.css' %}">
+    <link rel="stylesheet" href="{% static 'css/share.css' %}">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Bootstrap css -->
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <!-- Bootstrap icon -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+
+
+    <link rel="shortcut icon" href="{% static 'favicon.png' %}" type="image/x-icon">
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="container-xxl shadow-lg sticky-top p-0">
+        <nav class="navbar navbar-expand-lg bg-white bg-opacity-75">
+            <div class="container-fluid justify-content-between">
+                <div class=" d-flex">
+                    <a class="navbar-brand fs-4 me-2" href="{% url 'home' %}">MohirBitiruvchi</a>
+                    {% if request.user.status_teacher %}
+                        <span class="wrapper-info-text my-auto fs-4">
+                            <i class="fa-solid fa-crown" style="color: #ff9500;"></i>
+                            <span class="info-text">
+                                Foydalanuvchi statusi O'qituvchi
+                            </span>
+                        </span>
+                    {% elif request.user.status_student %}
+                        <span class="wrapper-info-text my-auto fs-4">
+                                <i class="fa-solid fa-graduation-cap" style="color: #000000;"></i>
+                            <span class="info-text">
+                                Foydalanuvchi statusi Talaba
+                            </span>
+                        </span>
+                    {% endif %}
+                </div>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                    <div class="collapse navbar-collapse justify-content-lg-end" id="navbarNavDropdown">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link {% if home_status %} active fw-bold {% endif %}" aria-current="page" href="{% url 'home' %}">Asosiy</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {% if about_status %} active fw-bold {% endif %}" href="{% url 'about' %}">Biz Haqimizda</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {% if certificate_status %} active fw-bold {% endif %}" href="{% url 'certificate' %}">Sertifikat</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Sahifalar
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item {% if blog_status %} active fw-bold {% endif %}" href="{% url 'blogs' 'all' ' ' %}">Maqolalar</a></li>
+                                    <li><a class="dropdown-item {% if event_status %} active fw-bold {% endif %}" href="{% url 'events' 'all' %}">Tadbirlar</a></li>
+                                    <li><a class="dropdown-item {% if gallery_status %} active fw-bold {% endif %}" href="{% url 'gallery' %}">Galereya</a></li>
+                                    <!-- <li><a class="dropdown-item {% if contact_status %} active fw-bold {% endif %}" href="./pages/useful-link.html">Foydali</a></li> -->
+                                    <li><a class="dropdown-item {% if project_status %} active fw-bold {% endif %}" href="{% url 'projects' 'all' ' ' %}">Loyihalar</a></li>
+                                    <li><a class="dropdown-item {% if student_status %} active fw-bold {% endif %}" href="{% url 'students' 'all' %}">O'quvchilar</a></li>
+                                    <li><a class="dropdown-item {% if teacher_status %} active fw-bold {% endif %}" href="{% url 'teachers' %}">Bizning O'qituvchilar</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {% if contact_status %} active fw-bold {% endif %}" href="{% url 'contact' %}">Bog'lanish</a>
+                            </li>
+                        </ul>
+                        {% if request.user.is_authenticated %}
+                            <div class="dropdown fs-5">
+                                <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ user.username }}
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    {% if request.user.is_authenticated and request.user.is_superuser %}
+                                        <li><a class="dropdown-item un-color fw-semibold" href="{% url 'admin:index' %}">Super Admin</a></li>
+                                        <li><a class="dropdown-item un-color fw-semibold" href="{% url 'authenticated' %}">Register Page</a></li>
+                                    {% endif %}
+                                    {% if request.user.is_authenticated and request.user.is_staff %}
+                                        <li><a class="dropdown-item un-color" href="{% url 'addinfo' %}">Admin sahfasi</a></li>
+                                        <li><a class="dropdown-item" href="{% url 'send_mail' %}">O'qituvchilarga xabar</a></li>
+                                    {% endif %}
+                                    <li><a class="dropdown-item" href="{% url 'profile' %}">Hisob malumotlari</a></li>
+                                    {% if request.user.status_student or request.user.is_staff %}
+                                        <li><a class="dropdown-item" href="{% url 'add_blogs' %}">Maqola qo'shish</a></li>
+                                    {% endif %}
+                                    <li><a class="dropdown-item" href="{% url 'logout' %}">Chiqish<i class="fa-solid fa-right-from-bracket ms-2"></i></a></li>
+                                </ul>
+                            </div>
+                        {% else %}
+                            <div class="fs-5">
+                                <a class="btn btn-primary" href="{% url 'authenticated' %}">Kirish<i class="fa-solid fa-right-to-bracket ms-2"></i></a>
+                            </div>
+                        {% endif %}
+                    </div>
+            </div>
+        </nav>
+    </header>
+    <!-- Header end -->
+
+    <!-- Content -->
+    <main id="home" class="container-xxl overflow-hidden">
+        <a href="#" class="fs-2 to-top btn btn-primary p-0 px-2 rounded-circle "><i class="bi bi-arrow-up-short"></i></a>
+        {% block content %}
+    
+        {% endblock %}
+    </main>
+    <!-- Content end -->
+
+    <!-- Footer -->
+    <footer class="container-xxl p-0">
+        <div class="mt-4">
+            <div class="row p-2 text-white justify-content-center">
+                <div class="col-sm-6 col-md-4 col-lg-3 p-2 text-center">
+                    <h3 class="t">
+                        <a href="{% url 'home' %}" class="text-light text-decoration-none text-center">
+                            <img class="logo-mohirdev" src="{% static 'logo.png' %}" alt=""> <span class="d-block">MohirBitiruvchi</span>
+                        </a>
+                    </h3>
+                    <h4>+998 (78) 113 13 10</h4>
+                    <p>Toshkent shahar, Mirzo Ulug'bek tumani, Muminov ko’chasi, 4A</p>
+                </div>
+                <div class="col-6 col-md-4 col-lg-3 p-2 text-center">
+                    <h5>Kompaniya</h5>
+                    <ul>
+                        <li><a href="https://mohirdev.uz/biz-haqimizda/" target="_blank" class="text-decoration-none">Kompaniya haqida</a></li>
+                        <li><a href="https://mohirdev.uz/#kurslar" target="_blank" class="text-decoration-none">Bepul kurslar</a></li>
+                        <li><a href="https://mohirdev.uz/#kasblar" target="_blank" class="text-decoration-none">Kasblar</a></li>
+                        <li><a href="https://mohirdev.uz/qanday-xarid-qilinadi/" target="_blank" class="text-decoration-none">Qanday xarid qilinadi</a></li>
+                        <li><a href="https://mohirdev.uz/ommaviy-oferta/" target="_blank" class="text-decoration-none">Ommaviy oferta</a></li>
+                        <li><a href="https://mohirdev.uz/maxfiylik-siyosati/" target="_blank" class="text-decoration-none">Maxfiylik siyosati</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-md-4 col-lg-3 p-2 text-center">
+                    <h5>MohirBitiruvchi</h5>
+                    <ul>
+                        <li><a href="{% url 'about' %}" class="text-decoration-none">Biz haqimizda</a></li>
+                        <li><a href="{% url 'blogs' 'all' ' ' %}" class="text-decoration-none">Maqolalar</a></li>
+                        <li><a href="{% url 'gallery' %}" class="text-decoration-none">Galereya</a></li>
+                        <li><a href="{% url 'certificate' %}" class="text-decoration-none">Sertifikat</a></li>
+                        <li><a href="{% url 'events' 'all' %}" class="text-decoration-none">Tadbirlar</a></li>
+                        {% if not request.user.is_authenticated%}
+                            <li><a href="{% url 'authenticated' %}" class="text-decoration-none">Ro'yhatdan o'tish</a></li>
+                        {% endif %}
+                        <li><a href="https://mohirdev.uz/faq/" class="text-decoration-none">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="col-12 col-md-4 col-lg-3 p-2 text-center">
+                    <h3>
+                        <a href="https://mohirdev.uz/" target="_blank" class="text-light text-decoration-none">
+                            <img class="logo-mohirdev" src="{% static 'image/logo/logo-mohirdev-02.png' %}" alt="">mohirdev.uz
+                        </a>
+                    </h3>
+                    <p>Kasbiy hotirjamlikka shu yerda erishiladi</p>
+                </div>
+            </div>               
+            <hr class="text-light m-0">
+            <div class="rowcp-2 footer-down py-0">
+                <div class="col-12 p-0">
+                    <p class="text-center my-1">
+                        © Mohirdev 2023. Barcha huquqlari himoyalangan.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Footer end --> 
+
+    <!-- JavaScript -->
+    <script src="{% static 'js/home.js' %}"></script>
+    <script src="{% static 'js/addinfo.js' %}"></script>
+    <script src="{% static 'js/profile.js' %}"></script>
+    <script src="{% static 'js/gallery.js' %}"></script>
+    <script src="{% static 'js/share.js' %}"></script>
+    <!-- Bootstrap JS -->
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+   
+</body>
+</html>

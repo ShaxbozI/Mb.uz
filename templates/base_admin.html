@@ -1,0 +1,137 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> {% block title %}{% endblock %} </title>
+</head>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Bootstrap css -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <!-- Bootstrap icon -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+    <link rel="shortcut icon" href="{% static 'favicon.png' %}" type="image/x-icon">
+<body class="bg-primary-subtle vh-100">
+
+    <div class="container h-100">
+        <div class="row py-3">
+            <div class="col-12">
+                <div class="title-add bg-white px-3 py-2 rounded-4 d-flex justify-content-between">
+                    <!-- <a class="navbar-brand fs-4" href="{% url 'home' %}">MohirBitiruvchi</a> -->
+                    <h5 class="align-self-center m-0 p-0">
+                        <img src="{% static 'logo.png' %}" class="mb-1" alt="" width="24px" height="24px">
+                        Admin sahifasi
+                    </h5>
+                    <a class="navbar-brand fs-6 align-self-center" href="{% url 'home' %}">Saytga qaytish</a>
+                </div>
+            </div>
+        </div>
+        <div class="row h-100 position-relative">
+            <div class="col-12 col-md-3 p-2">
+                <div class="d-grid p-2 text-center">
+                    <button type="button" class="btn btn-warning position-relative application-btn mb-3">
+                        Arizalar
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            {{ application_len }}
+                            <span class="visually-hidden">unread messages</span>
+                        </span>
+                    </button>
+                    <button type="button" class="btn btn-warning position-relative message-btn">
+                        Xabarlar
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            {{ message_len }}
+                            <span class="visually-hidden">unread messages</span>
+                        </span>
+                    </button>
+                </div>
+                <div class="auth-btn bg-white rounded-4 text-center p-2 border-bottom">
+                    <div class="d-grid"><button type="button" class="btn btn-outline-primary open-btn mt-2">Teacher/Student</button></div>
+                    <div class="d-grid"><button type="button" class="btn btn-outline-primary open-btn mt-2">Event</button></div>
+                    <div class="d-grid"><button type="button" class="btn btn-outline-primary open-btn mt-2">Project</button></div>
+                    <div class="d-grid"><button type="button" class="btn btn-outline-primary open-btn mt-2">Gallrey</button></div>
+                    <div class="d-grid"><button type="button" class="btn btn-outline-primary open-btn mt-2">Technology</button></div>
+                    <div class="d-grid"><button type="button" class="btn btn-outline-primary open-btn mt-2">Courses</button></div>
+                    <div class="d-grid"><button type="button" class="btn btn-outline-primary open-btn mt-2">Number Certificate</button></div>
+                </div>
+            </div>
+            <div class="col-12 col-md-9 p-2 add-info">
+                
+                {% block content %}
+
+                {% endblock %}
+
+            </div>
+            <div class="col-12 col-md-9 p-2 d-none applications">
+                <div class="content-add bg-white rounded-4 p-2">
+                    <div class="info-card">
+                        {% if certificate %}
+                            {% for application in certificate %}
+                                <div class="card mb-2 position-relative">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{application.get_full_name }}</h5>
+                                        <h6 class="card-subtitle mb-2 text-body-secondary">{{application.course_name }}</h6>
+                                        <div class="contact">
+                                            <a href="mailto:{{application.email}}" class="card-link">{{application.email}}</a>
+                                            <a href="tel:+{{application.phone_number}}" class="card-link">Tel: {{application.phone_number}}</a>
+                                        </div>
+                                        <div class="application_links">
+                                            <h6 class="card-subtitle mt-3 mb-1 text-body-secondary">Loyihalar uchun bog'lamalar</h6>
+                                            {% if links %}
+                                                {% for link in links %}
+                                                    {% if link.certificate == application %}
+                                                        <div class="link">
+                                                            <span class="me-2">{{link.link_name}}</span>
+                                                            <a href="{{link.link}}" class="card-link py-1">{{link.link}}</a>
+                                                        </div>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <a href="{% url 'delete' 'certificate' application.id %}" class="position-absolute p-2 top-0 end-0 text-danger">
+                                        <i class="fa-solid fa-trash fs-4"></i>
+                                    </a>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-9 p-2 d-none messages">
+                <div class="content-add bg-white rounded-4 p-2">
+                    <div class="info-card">
+                        {% if contat_message %}
+                            {% for message in contat_message %}
+                                <div class="card mb-2 position-relative">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{message.name }}</h5>
+                                        <div class="contact">
+                                            <a href="mailto:{{application.email}}" class="card-link">{{message.email}}</a>
+                                        </div>
+                                        <div class="application_links">
+                                            <h6 class="card-subtitle mt-2 mb-1 text-body-secondary">{{message.title}}</h6>
+                                            <p>{{message.message}}</p>
+                                        </div>
+                                    </div>
+                                    <a href="{% url 'delete' 'message' message.id %}" class="position-absolute p-2 top-0 end-0 text-danger">
+                                        <i class="fa-solid fa-trash fs-4"></i>
+                                    </a>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    <script src="{% static 'js/addinfo.js' %}"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+</body>
+</html>

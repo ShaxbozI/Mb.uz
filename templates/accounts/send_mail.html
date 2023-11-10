@@ -1,0 +1,47 @@
+{% extends "base_accounts.html" %}
+{% load static %}
+
+{% block title %}Xabar yuborish{% endblock %}
+{% block content %}
+    
+    <div class="container h-100">
+        <div class="row h-100 justify-content-center">
+            <div class="col-12 col-md-8 col-lg-6 bg-white rounded-4 align-self-center">
+                <h2 class="text-center border-bottom py-2">
+                    <a href="{% url 'home' %}" class="text-light text-decoration-none  text-center">
+                        <img class="logo-mohirdev" src="{% static 'logo.png' %}" alt=""> <span class="d-block text-dark fw-bold">MohirBitiruvchi</span>
+                    </a>
+                </h2>
+                <div class="login pt-0 pt-md-0 p-2 p-md-4">
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <div class="">
+                            Xabar mavzusi
+                            {{email_form.title}}
+                        </div>
+                        <div class="my-3">
+                            Xabar mazmuni
+                            {{email_form.message}}
+                        </div>
+                        <div class="message-login">
+                            {% if messages %}
+                                {% for message in messages %}
+                                    {% if message.tags == 'error' %}
+                                        <span class="text-danger d-block text-center p-3">{{ message }}</span>
+                                    {% else %}
+                                        <span class="text-secondary d-block text-center p-3">{{ message }}</span>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        <div class="text-center d-grid">
+                            <button type="submit" class="btn btn-primary mt-3">Xabarni yuborish</button>
+                        </div>
+                        <span class="text-secondary d-block text-center p-3"><a href="{% url 'home' %}" class="ms-2">Ortga qaytish</a></span>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

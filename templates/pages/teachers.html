@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}MohirBitiruvchi{% endblock %}
+{% block content %}
+  
+        <div class="teacher-page mt-5">
+            <h3 class="text-center my-5">Mohir o'quvchilarning mohir O'qituvchilari</h3>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mb-5">
+
+                {% for teacher in teachers %}
+                    <div class="col mb-2">
+                        <div class="card">
+                            <img src="{{ teacher.image.url }}" class="card-img-top rounded-circle" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ teacher.get_full_name }}</h5>
+                                <p class="card-text">{{ teacher.info }}</p>
+                                <a href="{{ teacher.linkedin }}" target="_blank"><i class="fab fa-linkedin"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+
+            </div>
+            
+        </div>
+{% endblock %}

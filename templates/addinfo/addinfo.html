@@ -1,0 +1,143 @@
+{% extends "base_admin.html" %}
+{% load static %}
+
+{% block title %}Malumotlar qo'shish{% endblock %}
+{% block content %}
+    
+    <div class="message"> 
+        {% if messages %}
+            {% for message in messages %}
+                {% if message.tags == 'error' %}
+                    <div class="alert alert-warning text-center" role="alert">
+                        {{ message }}
+                    </div>
+                    <!-- <span class="text-dangerj d-block text-center p-3 position-fixed top-0 right-0 w-100 bg-warning">{{ message }}</span> -->
+                {% else %}
+                    <div class="alert alert-success text-center" role="alert">
+                        {{ message }}
+                    </div>
+                    <!-- <span class="text-secondary d-block text-center p-3 posetion-absalute top-0 w-100 bg-success">{{ message }}</span> -->
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    </div> 
+    <div class="content-add bg-white rounded-4 p-2">
+        <div class="info-card">
+            <h5 class="text-center">Qanday malumot qo'shishni tanlang va yoki Sertifikat uchun yuborilgan arizalarni ko'rib chiqing.</h5>
+        </div>
+        <div class="open-element pt-0 pt-md-0 p-2 p-md-4 d-none">
+            <h5 class="text-center">Teacher/Student</h5>
+            <form action="{% url 'addform' form='TandS' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ ts_form.media }}
+                {% for field in ts_form %}
+                    <div class="mt-2">
+                        {{ field.label_tag }}
+                        {{ field }}
+                    </div>
+                {% endfor %}
+                <!-- {{ts_form}} -->
+                <div class="text-center d-grid">
+                    <button type="submit" class="btn btn-primary mt-3">Qo'shish</button>
+                </div>
+            </form>
+        </div>
+        <div class="open-element pt-0 pt-md-0 p-2 p-md-4 d-none">
+            <h5 class="text-center">Event</h5>
+            <form action="{% url 'addform' form='event' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ event_form.media }}
+                {% for field in event_form %}
+                    <div class="mt-2">
+                        {{ field.label_tag }}
+                        {{ field }}
+                    </div>
+                {% endfor %}
+                <div class="text-center d-grid">
+                    <button type="submit" class="btn btn-primary mt-3">Qo'shish</button>
+                </div>
+            </form>
+        </div>
+        <div class="open-element pt-0 pt-md-0 p-2 p-md-4 d-none">
+            <h5 class="text-center">Project</h5>
+            <form action="{% url 'addform' form='project' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ project_form.media }}
+                {% for field in project_form %}
+                    <div class="mt-2">
+                        {{ field.label_tag }}
+                        {{ field }}
+                    </div>
+                {% endfor %}
+                <div class="text-center d-grid">
+                    <button type="submit" class="btn btn-primary mt-3">Qo'shish</button>
+                </div>
+            </form>
+        </div>
+        <div class="open-element pt-0 pt-md-0 p-2 p-md-4 d-none">
+            <h5 class="text-center">Gallrey</h5>
+            <form action="{% url 'addform' form='gallery' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% for field in gallery_form %}
+                    <div class="mt-2">
+                        {{ field.label_tag }}
+                        {{ field }}
+                    </div>
+                {% endfor %}
+                <div class="text-center d-grid">
+                    <button type="submit" class="btn btn-primary mt-3">Qo'shish</button>
+                </div>
+            </form>
+        </div>
+        <div class="open-element pt-0 pt-md-0 p-2 p-md-4 d-none">
+            <h5 class="text-center">Technology</h5>
+            <form action="{% url 'addform' form='techno' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% for field in techno_form %}
+                    <div class="mt-2">
+                        {{ field.label_tag }}
+                        {{ field }}
+                    </div>
+                {% endfor %}
+                <div class="text-center d-grid">
+                    <button type="submit" class="btn btn-primary mt-3">Qo'shish</button>
+                </div>
+            </form>
+        </div>
+        <div class="open-element pt-0 pt-md-0 p-2 p-md-4 d-none">
+            <h5 class="text-center">Courses</h5>
+            <form action="{% url 'addform' form='course' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% for field in course_form %}
+                    <div class="mt-2">
+                        {{ field.label_tag }}
+                        {{ field }}
+                    </div>
+                {% endfor %}
+                <div class="text-center d-grid">
+                    <button type="submit" class="btn btn-primary mt-3">Qo'shish</button>
+                </div>
+            </form>
+        </div>
+        <div class="open-element pt-0 pt-md-0 p-2 p-md-4 d-none">
+            <h5 class="text-center">Number Certificate</h5>
+            <form action="{% url 'addform' form='num_certficate' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% for field in numcert_form %}
+                    <div class="mt-2">
+                        {{ field.label_tag }}
+                        {{ field }}
+                    </div>
+                {% endfor %}
+                <div class="text-center d-grid">
+                    <button type="submit" class="btn btn-primary mt-3">Qo'shish</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    
+    <script type="text/javascript" src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
+    <script type="text/javascript" src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+{% endblock %}

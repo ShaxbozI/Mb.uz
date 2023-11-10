@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Maqolalar{% endblock %}
+{% block content %}
+
+    <div class="row text-center pt-4 mb-4">
+        <h1>Maqolalar</h1>
+    </div>
+    <div class="row">
+        <div class="col-sm-8 p-4 pe-md-0">
+            <div class="row row-cols-1 row-cols-md-2 g-3 text-center">
+                {% if blogs %}
+                    {% for blog in blogs %}
+                        <div class="col">
+                            <div class="blog-item bg-info-subtle rounded overflow-hidden">
+                                <div class="blog-img position-relative overflow-hidden">
+                                    <img class="img-fluid" src="{{ blog.image.url }}" alt="">
+                                    <a class="position-absolute top-0 start-0 bg-info text-white rounded-end mt-5 py-2 px-4 text-decoration-none" href="{% url 'blogs' 'category' blog.category %}">{{ blog.category }}</a>
+                                </div>
+                                <div class="p-2 p-lg-4">
+                                    <div class="d-flex mb-3">
+                                        <small class="me-4">
+                                            <i class="far fa-user text-primary me-2 text-info"></i>{{ blog.author }}
+                                            {% if blog.author.status_teacher %}
+                                                <i class="fa-solid fa-crown" style="color: #ff9500;"></i>
+                                            {% elif blog.author.status_student %}
+                                                <i class="fa-solid fa-graduation-cap" style="color: #000000;"></i>
+                                            {% endif %}
+                                        </small>
+                                        <small><i class="far fa-calendar-alt text-primary me-2 text-info"></i>{{ blog.created_on|date:"d.M.Y" }}</small>
+                                    </div>
+                                    <h4 class="mb-3">How to build a website</h4>
+                                    <p>{{ blog.title }}</p>
+                                    <a class="text-uppercase text-decoration-none text-info" href="{% url 'detail_blog' blog.slug %}">Ko'proq <i class="bi bi-arrow-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                        <div class="col text-center"> {% if message %} {{ message }} {% endif %} </div>
+                {% endif %}
+                
+            </div>
+
+            <!-- Paginator -->
+            <div class="paginator mt-4">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                        {% if blogs.has_previous or blogs.has_next %}
+                            {% if blogs.has_previous %}
+                                <li class="page-item">
+                                    <a class="page-link" href="{% url 'blogs' 'all' ' ' %}?page=1">
+                                        <i class="fa-solid fa-angles-left"></i>
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="{% url 'blogs' 'all' ' ' %}?page={{ blogs.previous_page_number }}">
+                                        <i class="fa-solid fa-angle-left"></i>
+                                    </a>
+                                </li>
+                            {% endif %}
+                            <li class="page-item"><a class="page-link" href="#">
+                                {{ blogs.number }} / {{ blogs.paginator.num_pages }}
+                            </a></li>
+                            {% if blogs.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link" href="{% url 'blogs' 'all' ' ' %}?page={{ blogs.next_page_number }}">
+                                        <i class="fa-solid fa-angle-right"></i>
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="{% url 'blogs' 'all' ' ' %}?page={{ blogs.paginator.num_pages }}">
+                                        <i class="fa-solid fa-angles-right"></i>
+                                    </a>
+                                </li>
+                            {% endif %}
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+            <!-- Paginator end -->
+
+        </div>
+
+        <!-- Filter -->
+        <div class="col-sm-4 py-4">
+            <!-- Search -->
+            <div class="row bg-white p-0 p-md-4 mb-3">
+                <form class="d-flex" role="search" method="get" action="{% url 'blogs' ' ' ' ' %}">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Izlash..." aria-label="Recipient's username" aria-describedby="button-addon2" name="q" required>
+                        <button class="btn btn-outline-secondary" type="submit" id="button-addon2"><i class="bi bi-search"></i></button>
+                    </div>
+                </form>
+            </div>
+            <!-- Search end -->
+            
+            <div class="row categories bg-white p-2 p-md-4 mb-3">
+                <h5 class="mb-4">Turkumlar</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-3 border-bottom"><a class="text-decoration-none text-dark" href="{% url 'blogs' 'all' ' ' %}"> Barchasi </a></li>
+                    {% for category in categories %}
+                        <li class="mb-3 border-bottom"><a class="text-decoration-none text-dark" href="{% url 'blogs' 'category' category %}">{{ category }} </a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="row tags bg-white p-2 p-md-4">
+                <h5 class="mb-4">Kalit so'zlar</h5>
+                <div class="container text-center">
+                    <div class="row g-2 justify-content-center">
+                        {% for tag in tags %}
+                            <div class="col border border-success-subtle me-2 p-2"><a class="text-decoration-none" href="{% url 'blogs' 'tag' tag.name %}">#{{ tag.name }}</a></div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Filter -->
+    </div>
+
+{% endblock %}

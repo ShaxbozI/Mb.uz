@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Sertifikat{% endblock %}
+{% block content %}
+<div class="container-fluid certificate mt-5 align-items-center">
+    <div class="row mt-5 bg-body-tertiary rounded-4 p-3 justify-content-center">
+        <h2 class="text-center mb-5">Sertifikat olish uchun ariza topshiring</h2>
+        <div class="col-12 col-md-5 my-auto">
+            <div class="p-2 p-md-5">
+                <img class="w-100" src="{% static 'image/Sertifikat.jpeg' %}" alt="">
+            </div>
+            <p>
+                Agar hali ham bizning kurslarni o'qimayotgan bo'lsangiz unda hoziroq tanlang va
+                o'qishni boshlang
+            </p>
+            <div class="text-center">
+                <a href="https://mohirdev.uz/#kasblar" class="btn btn-primary">Kasblar</a>
+            </div>
+        </div>
+        <div class="col-12 col-md-7 px-1 px-md-5 border-md-start border-3 border-primary">
+            <div class="mb-4">
+                <h3 class="d-inline">Sertifikat olish</h3>
+                <p class="text-primary d-inline ms-3">Quyidagi formani to'ldiring</p>
+            </div>
+            <form action="" method="post" class="native">
+                {% csrf_token %}
+                <div class="input-group">
+                    <span class="input-group-text mt-1">Ism Familiya</span>
+                    {{form.name}}
+                    {{form.last_name}}
+                </div>
+                <div class="input-group my-3">
+                    <span class="input-group-text mt-1">Email</span>
+                    {{form.email}}
+                </div>
+                <div class="input-group my-3">
+                    <span class="input-group-text mt-1">Kurs nomi</span>
+                    {{form.course_name}}
+                </div>
+                <div>
+                    <div class="input-group">
+                        <span class="input-group-text mt-1">Telefon</span>
+                        {{form.phone_number}}
+                    </div>
+                    <div class="feedback fs-6 text-body-tertiary text-center">
+                        Kursni o'qish uchun ro'yhatdan o'tishda ishlatilgan raqam
+                    </div>
+                </div>
+                {{ links_formset.management_form }}
+                <div class="project-links">
+                    <div class="d-flex">
+                        <h5 class="w-50 pe-2">Havola nomi</h5>
+                        <h5 class="w-50 ps-1">Havola</h5>
+                    </div>
+                    {% for link_form in links_formset %}
+                        <div class="d-flex link-input position-relative mt-2">
+                            <span class="position-absolute z-3 rounded-circle bg-warning text-white link-count"> {{ forloop.counter }} </span>
+                            <div class="w-50 pe-2">
+                                <div class="input-group">
+                                    <span class="input-group-text mt-1"><i class="bi bi-info"></i></span>
+                                    {{ link_form.link_name }}
+                                </div>
+                            </div>
+                            <div class="w-50 ps-1">
+                                <div class="input-group">
+                                    <span class="input-group-text mt-1"><i class="bi bi-link-45deg"></i></span>
+                                    {{ link_form.link }}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <div class="message">
+                        {% if messages %}
+                            {% for message in messages %}
+                                {% if message.tags == 'error' %}
+                                    <span class="text-danger d-block text-center p-2 pb-0">{{ message }}</span>
+                                {% else %}
+                                    <span class="text-secondary d-block text-center p-2 pb-0">{{ message }}</span>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-12 text-center p-0 m-0 mt-2 link-btn">
+                    <i class="bi bi-plus-square fs-4 btn-plus"></i>
+                    <i class="bi bi-x-circle close-btn fs-4 ms-4 d-none"></i>
+                </div>
+                
+                <div class="d-grid text-center">
+                    <button type="submit" class="btn btn-warning mt-2">Yuborish</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'js/certificate.js' %}"></script>
+{% endblock %}

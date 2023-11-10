@@ -1,0 +1,97 @@
+{% extends "base_accounts.html" %}
+{% load static %}
+
+{% block title %}Register{% endblock %}
+{% block content %}
+    
+    <div class="container h-100">
+        <div class="row h-100 justify-content-center">
+            <div class="col-12 col-md-8 col-lg-6 bg-white rounded-4 align-self-center">
+                <h2 class="text-center border-bottom py-2">
+                    <a href="{% url 'home' %}" class="text-light text-decoration-none  text-center">
+                        <img class="logo-mohirdev" src="{% static 'logo.png' %}" alt=""> <span class="d-block text-dark fw-bold">MohirBitiruvchi</span>
+                    </a>
+                </h2>
+                <div class="auth-btn text-center p-2">
+                    <button type="button" class="btn btn-primary login-btn">Kirish</button>
+                    <button type="button" class="btn btn-outline-primary register-btn {{class}}">Ro'yhatdan o'tish</button>
+                </div>
+                <div class="login pt-0 pt-md-0 p-2 p-md-4">
+                    <form action="{% url 'login_register' form='login' %}" method="post">
+                        {% csrf_token %}
+                        <div class="input-group">
+                            <span class="input-group-text mt-1">Foydalanuvchi nomi</span>
+                            {{login_form.username}}
+                        </div>
+                        <div class="input-group my-3">
+                            <span class="input-group-text mt-1">Maxfiy so'z</span>
+                            {{login_form.password}}
+                        </div>
+                        <div class="message-login">
+                            {% if messages %}
+                                {% for message in messages %}
+                                    {% if message.tags == 'error' %}
+                                        <span class="text-danger d-block text-center p-3">{{ message }}</span>
+                                    {% else %}
+                                        <span class="text-secondary d-block text-center p-3">{{ message }}</span>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        <div class="text-center d-grid">
+                            <button type="submit" class="btn btn-primary mt-3">Kirish</button>
+                        </div>
+                        <span class="text-secondary d-block text-center p-3">Maxfiy so'z esdan chiqdimi?<a href="{% url 'forgot_password' %}" class="ms-2">Tiklash</a></span>
+                    </form>
+                </div>
+                <div class="register pt-0 pt-md-0 p-2 p-md-4 d-none">
+                    <div class="message-register">
+                        {% if messages %}
+                            {% for message in messages %}
+                                {% if message.tags == 'error' %}
+                                    <span class="text-danger d-block text-center p-2">{{ message }}</span>
+                                {% else %}
+                                    <span class="text-secondary d-block text-center p-2">{{ message }}</span>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <form action="{% url 'login_register' form='register' %}" method="post">
+                        {% csrf_token %}
+                        <div class="input-group">
+                            <span class="input-group-text mt-1">Foydalanuvchi nomi</span>
+                            {{register_form.username}}
+                        </div>
+                        <div class="input-group my-3">
+                            <span class="input-group-text mt-1">Email</span>
+                            {{register_form.email}}
+                        </div>
+                        <div>
+                            <div class="input-group mt-3">
+                                <span class="input-group-text mt-1">Sertifikate raqami</span>
+                                {{register_form.certificate_number}}
+                            </div>
+                            <div class="feedback fs-6 text-body-tertiary text-center mt-0">
+                                Agar sizda sertifikar mavjud bo'lsa.
+                            </div>
+                        </div>
+                        <div class="input-group my-3">
+                            <span class="input-group-text mt-1">Maxfiy so'z</span>
+                            {{register_form.password}}
+                        </div>
+                        <div class="input-group my-3">
+                            <span class="input-group-text mt-1">Maxfiy so'zni tasdiqlash</span>
+                            {{register_form.password_2}}
+                        </div>
+                        
+                        <span class="text-secondary d-block text-center p-2 message"></span>
+                        <div class="text-center d-grid">
+                            <button type="submit" class="btn btn-primary mt-3 register_form" disabled >Ro'yhatdan o'tish</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

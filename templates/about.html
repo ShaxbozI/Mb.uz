@@ -1,0 +1,174 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Biz Haqimizda{% endblock %}
+{% block content %}
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    
+    <div class="section container-fluid mt-5">
+
+        <!-- THE PLATFORM -->
+        <div class="row g-5 m-1 my-5 pb-5">
+            <div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s" style="visibility: visible; animation-delay: 0.1s; animation-name: fadeIn;">
+                <div class="d-flex flex-column">
+                    <img class="img-fluid rounded w-75 align-self-end" src="{% static 'image/mohirdev_blue.jpg' %}" alt="">
+                    <img class="img-fluid rounded w-50 bg-white pt-3 pe-3" src="{% static 'image/mohirbitiruvchi_dark.jpg' %}" alt="" style="margin-top: -25%;">
+                </div>
+            </div>
+            <div class="col-lg-6 p-2 py-sm-3">
+                <p class="d-inline-block border rounded-pill py-1 px-4">Biz haqimizda</p>
+                <h1 class="mb-4">Mohirdev hamda MohirBitiruvchi!</h1>
+                <p>Biz 
+                    <a href="https://mohirdev.uz" target="_blank">mohirdev</a> 
+                    onlayn platformasi jamoasining bir qismi bo'lib bizga bilimga chanqoq o'quvchilarimizning malum bir ishlari ishonib topshirilgan ulardan eng asosiysi biz 
+                    o'quvchilarga sertifikar berish bilan shug'ullanamiz.
+                </p>
+                <p class="mb-4">Qolaversa biz muvofaqiyatli bitirgan o'quvchilar malumotlarini jamlash ularga ko'mak berish hamda shu bilan birga ushbu 
+                    platformada O'qituvchilardan maslahatlar, o'quvchilardan eng yaxshi loyihalar jamlash va ayni damda talim olayotgan o'quvchilarimizga o'rnak sifatida tashkil etilgan
+                </p>
+                <p><i class="far fa-check-circle text-primary me-3"></i>Sifatli talim natijalari</p>
+                <p><i class="far fa-check-circle text-primary me-3"></i>Sertifikar olishning qulay tizimi</p>
+                <p><i class="far fa-check-circle text-primary me-3"></i>Mohirdevga oid yangiliklar</p>
+                <!-- <a class="btn btn-primary rounded-pill py-3 px-5 mt-3" href="">Read More</a> -->
+            </div>
+        </div>
+
+        <!-- PROJECT -->
+        <div class="row g-0 mx-lg-0 my-5 py-5">
+            <div class="col-lg-7 feature-text py-5 bg-primary p-3 ps-md-5">
+                <div class="px-lg-5 ps-lg-0">
+                    <p class="d-inline-block border rounded-pill text-light py-1 px-4">Platforma</p>
+                    <h1 class="text-white mb-4">Bu yerda nima qilish mumkin</h1>
+                    <p class="text-white mb-4 pb-2">Eng asosiysi bu yerda siz sifatli talim natijalarini ko'rishingiz mumkin qolaversa bu yerda 
+                        o'quvchilar hamda o'qituvchilar va mentorlarning ahil jamoasi shakillangan.
+                    </p>
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center">
+                                <div class="d-flex flex-shrink-0 align-items-center justify-content-center rounded-circle bg-light" style="width: 55px; height: 55px;">
+                                    <i class="fa-solid fa-graduation-cap fs-5 text-primary"></i>
+                                </div>
+                                <div class="ms-4">
+                                    <p class="text-white mb-2">Bilim darajasi</p>
+                                    <h5 class="text-white mb-0">Sertifikat</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center">
+                                <div class="d-flex flex-shrink-0 align-items-center justify-content-center rounded-circle bg-light" style="width: 55px; height: 55px;">
+                                    <i class="fa-solid fa-bars-progress fs-5 text-primary"></i>
+                                </div>
+                                <div class="ms-4">
+                                    <p class="text-white mb-2">Natija</p>
+                                    <h5 class="text-white mb-0">O'quvchilardan Loyihalar</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center">
+                                <div class="d-flex flex-shrink-0 align-items-center justify-content-center rounded-circle bg-light" style="width: 55px; height: 55px;">
+                                    <i class="fa-solid fa-school-flag fs-5 text-primary"></i>
+                                </div>
+                                <div class="ms-4">
+                                    <p class="text-white mb-2">Maslahat</p>
+                                    <h5 class="text-white mb-0">O'qituvchi va mentorlar</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center">
+                                <div class="d-flex flex-shrink-0 align-items-center justify-content-center rounded-circle bg-light" style="width: 55px; height: 55px;">
+                                    <i class="fa-regular fa-newspaper fs-5 text-primary"></i>
+                                </div>
+                                <div class="ms-4">
+                                    <p class="text-white mb-2">Malumot</p>
+                                    <h5 class="text-white mb-0">Platforma yangiliklari</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5 pe-lg-0">
+                <div class="position-relative h-100">
+                    <img class="position-absolute img-fluid w-100 h-100" src="{% static 'image/mohirbitiruvchi_blue.jpg' %}" style="object-fit: cover;" alt="">
+                </div>
+            </div>
+        </div>
+
+        <!-- CERTIFICATE -->
+        <div class="row g-5 my-5 py-5">
+            <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="visibility: visible; animation-delay: 0.1s; animation-name: fadeInUp;">
+                <p class="d-inline-block border rounded-pill py-1 px-4">Sertifikat</p>
+                <h1 class="mb-4">Siz uchun sertifikat aynan shu yerda.</h1>
+                <p class="mb-4">O'z bilimingizni ko'rsating dars davomida o'zlahtirgan bilimlaringiz o'qituvchi va mentorlar bilan birgalikda qilgan 
+                    loyihalar, qolaversa mustaqil o'zlashtirgan malumotlaringiz va mustaqil tayyorlagan loyihalaringizni bizga taqdim eting va beldilangan 
+                    qoidalar asosida sinovdan o'ting hamda sertifikat sohibiga aylaning.
+                </p>
+                <h5>Bu sizga nima beradi?</h5>
+                <div class="bg-light rounded d-flex align-items-center p-3 mb-4">
+                    <div class="d-flex flex-shrink-0 align-items-center justify-content-center rounded-circle bg-white" style="width: 55px; height: 55px;">
+                        <i class="fa-solid fa-1 text-primary"></i>
+                    </div>
+                    <div class="ms-4">
+                        <h6 class="mb-2">Sifatli bilim dasrajasi va siznig ishlaringiz hamda bilimingiz maxsus tekshiruvdan o'tganligi</h6>
+                    </div>
+                </div>
+                <div class="bg-light rounded d-flex align-items-center p-3">
+                    <div class="d-flex flex-shrink-0 align-items-center justify-content-center rounded-circle bg-white" style="width: 55px; height: 55px;">
+                        <i class="fa-solid fa-2 text-primary"></i>
+                    </div>
+                    <div class="ms-4">
+                        <h6 class="mb-2">Siz real loyihalarda ishlashingiz mumkinligini tasdiqlash</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="position-relative h-100">
+                    <img class="position-absolute img-fluid w-100 h-100" src="{% static 'image/Sertifikat.jpeg' %}" style="object-fit: cover;" alt="">
+                </div>
+            </div>
+        </div>
+
+
+        <!-- OUR TEEM -->
+        <div class="row p-3 p-sm-5">
+            <h1 class="mb-5">Biz bilan birga</h1>
+            <div class="col-12 bg-body-secondary">
+                <div class="row mb-3 p-3">
+                    <div class="col-12 col-sm-6 text-center">
+                        <h4 class="mb-4 text-primary-emphasis">Platforma jamoasi</h4>
+                        <h1 class="d-inline fw-bolder text-primary border-bottom border-2 border-secondary-subtle">50+</h1>
+                    </div>
+                    <div class="col-12 col-sm-6 text-center mt-3 mt-sm-0">
+                        <h4 class="mb-4 text-primary-emphasis">Faol o'quvchilar</h4>
+                        <h1 class="d-inline fw-bolder text-primary border-bottom border-2 border-secondary-subtle">50000+</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- PARTNER -->
+    <div class="partner container-fluid">
+        <div class="row mt-5">
+            <div class="col-12 text-center">
+                <h2>Bizning hamkorlar</h2>
+            </div>
+            <div class="carousel_teacher owl-carousel">
+                <div class="card"><img src="{% static 'image/partner/partner-1.png' %}" class="" alt="..."></div>
+                <div class="card"><img src="{% static 'image/partner/partner-2.png' %}" class="" alt="..."></div>
+                <div class="card"><img src="{% static 'image/partner/partner-3.png' %}" class="" alt="..."></div>
+                <div class="card"><img src="{% static 'image/partner/partner-4.png' %}" class="" alt="..."></div>
+                <div class="card"><img src="{% static 'image/partner/partner-5.png' %}" class="" alt="..."></div>
+                <div class="card"><img src="{% static 'image/partner/partner-6.png' %}" class="" alt="..."></div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

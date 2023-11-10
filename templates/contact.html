@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Bog'lanish{% endblock %}
+{% block content %}
+    <div class="container-fluid certificate mt-5 align-items-center">
+        <h2 class="text-center mb-5">Biz bilan bog'laning</h2>
+        <div class="row mt-5 bg-body-tertiary rounded-4 p-3 justify-content-center flex-column-reverse flex-md-row">
+            <div class="col-12 col-md-5">
+                <iframe class="w-100" height="400px" src="https://yandex.ru/map-widget/v1/?um=constructor%3Abf177fb32c70939830a259c9bf836bc6caac43d1c6d2dcac9eba1e50530951b7&amp;source=constructor" frameborder="0"></iframe>
+            </div>
+            <div class="col-12 col-md-7 px-1 px-ms-5 border-md-start border-md-2 border-md-secondary-subtle">
+                <div class="mb-4">
+                    <h3 class="d-inline">Xabar yo'llash</h3>
+                    <p class="text-primary d-inline ms-3">Quyidagi formani to'ldiring</p>
+                </div>
+                <form action="#" class="text-center" method="post">
+                    {% csrf_token %}
+                    <div class="form-floating mb-3">
+                        {{ contact_form.name }}
+                        <label for="floatingInput1">Ism</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        {{ contact_form.email }}
+                        <label for="floatingInput2">Email manzili</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        {{ contact_form.title }}
+                        <label for="floatingInput3">Xabar mavzusi</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        {{ contact_form.message }}
+                        <label for="floatingTextarea2">Xabar mazmuni</label>
+                    </div>
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if message.tags == 'error' %}
+                                <span class="text-danger d-block text-center p-2 mb-3">{{ message }}</span>
+                            {% else %}
+                                <span class="text-secondary d-block text-center p-2 mb-3">{{ message }}</span>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                    <button type="submit" class="btn btn-warning">Yuborish</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
