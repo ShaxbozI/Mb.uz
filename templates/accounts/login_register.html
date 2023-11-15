@@ -43,7 +43,32 @@
                         </div>
                         <span class="text-secondary d-block text-center p-3">Maxfiy so'z esdan chiqdimi?<a href="{% url 'forgot_password' %}" class="ms-2">Tiklash</a></span>
                     </form>
+
                 </div>
+                <!-- <div class="email pt-0 pt-md-0 p-2 p-md-4">
+                    <h5 class="text-center">Ro'yhatdan o'tish uchun email manzilingizni tasdiqlang</h5>
+                    <div class="message-register">
+                        {% if messages %}
+                            {% for message in messages %}
+                                {% if message.tags == 'error' %}
+                                    <span class="text-danger d-block text-center p-2">{{ message }}</span>
+                                {% else %}
+                                    <span class="text-secondary d-block text-center p-2">{{ message }}</span>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <form action="{% url 'login_register' form='email' %}" method="post">
+                        {% csrf_token %}
+                        <div class="input-group my-3">
+                            <span class="input-group-text mt-1">Email</span>
+                            {{email_form.email}}
+                        </div>
+                        <div class="text-center d-grid">
+                            <button type="submit" class="btn btn-primary mt-3 register_form" >Tasdiqlash kodini yuborish</button>
+                        </div>
+                    </form>
+                </div> -->
                 <div class="register pt-0 pt-md-0 p-2 p-md-4 d-none">
                     <div class="message-register">
                         {% if messages %}

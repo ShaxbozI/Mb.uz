@@ -14,8 +14,11 @@
                             <img src="{{ teacher.image.url }}" class="card-img-top rounded-circle" alt="...">
                             <div class="card-body">
                                 <h5 class="card-title">{{ teacher.get_full_name }}</h5>
-                                <p class="card-text">{{ teacher.info }}</p>
-                                <a href="{{ teacher.linkedin }}" target="_blank"><i class="fab fa-linkedin"></i></a>
+                                <p class="card-text">{{ teacher.info|safe }}</p>
+                                <a href="{{ teacher.linkedin }}" class="me-3 text-decoration-none" target="_blank"><i class="fab fa-linkedin me-2"></i>Linkedin</a>
+                                {% if teacher.email_link %}
+                                    <a href="{{ teacher.email_link }}" class="me-3 text-decoration-none" target="_blank"><i class="fa-regular fa-envelope me-2"></i>Email</a>
+                                {% endif %}
                             </div>
                         </div>
                     </div>

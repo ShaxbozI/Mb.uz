@@ -22,6 +22,7 @@ from django.conf.urls.static import static
 
 
 from django.views.generic import RedirectView
+from django.conf.urls import handler404, handler500
 
 urlpatterns = [
     path('ckeditor/', include('ckeditor_uploader.urls')),
@@ -34,6 +35,10 @@ urlpatterns = [
     # path('api/create/', CertificateCreateView.as_view(), name='certificate-create'),
     path('favicon.ico', RedirectView.as_view(url='/static/favicon.png')),
 ]
+
+handler404 = "mohirbitiruvchi.views.page_not_found_view"
+handler500 = "mohirbitiruvchi.views.server_error_view"
+
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

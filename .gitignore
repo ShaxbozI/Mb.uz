@@ -3,7 +3,6 @@
 *.pot
 *.pyc
 __pycache__
-media
 
 # Backup files # 
 *.bak 
@@ -59,7 +58,9 @@ lib/
 lib64/ 
 parts/ 
 sdist/ 
-var/ 
+var/
+media
+staticfiles 
 wheels/ 
 *.egg-info/ 
 .installed.cfg 

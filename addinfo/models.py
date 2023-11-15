@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 from certificate.models import Courses
 from ckeditor.fields import RichTextField
 
@@ -20,11 +21,11 @@ class TeacherAndStudent(models.Model):
     name = models.CharField(max_length=80)
     last_name = models.CharField(max_length=80)
     info = RichTextField()
-    email_link = models.EmailField(max_length=250)
+    email_link = models.EmailField(max_length=250, blank=True, null=True)
     image = models.ImageField(upload_to='images/tands', default='images/default_picture_tands.png')
     linkedin = models.URLField(blank=True, null=True)
-    course = models.ForeignKey(Courses, on_delete=models.CASCADE)
-    # jobs = models.CharField(max_length=350)
+    course = models.ManyToManyField(Courses)
+    jobs = models.CharField(max_length=350)
     status = models.CharField(
         max_length = 2,
         choices = Status.choices
@@ -38,12 +39,12 @@ class TeacherAndStudent(models.Model):
         return f'{self.name} {self.last_name}'
     
     
-class Events(models.Model):
+class Events(models.Model): 
     title = models.CharField(max_length=300)
-    # speaker = models.CharField(max_length=150)
+    speaker = models.CharField(max_length=150)
     description = RichTextField()
     image = models.ImageField(upload_to='images/events', default='images/default_picture_event.png')
-    start_data = models.DateTimeField()
+    start_data = models.DateTimeField(default=timezone.now)
     event_link = models.URLField(blank=True, null=True)
     cterate_at = models.DateTimeField(auto_now_add = True)
     
@@ -56,7 +57,7 @@ class Projects(models.Model):
     title = models.CharField(max_length=300)
     description = RichTextField()
     image = models.ImageField(upload_to='images/projects', default='images/default_picture_project.png')
-    project_link = models.URLField(blank=True, null=True)    # kiritishni majburiy qilish kerak
+    project_link = models.URLField(blank=False, null=False)
     cterate_at = models.DateTimeField(auto_now_add = True)
     technologies = models.ManyToManyField(Technology)
     course = models.ForeignKey(Courses, on_delete=models.CASCADE)

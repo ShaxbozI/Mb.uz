@@ -55,7 +55,8 @@
                                     <li><i class="far fa-clock margin-10px-right"></i>{{ event.start_data|date:"d.M.Y H:i" }}</li>
                                     <li><i class="fas fa-user margin-5px-right"></i> Speaker : John Sminth</li>
                                 </ul>
-                                <p>{{ event.description }}</p>
+                                <p>{{ event.description|safe }}</p>
+                                <a class="px-4" href="{{ event.event_link }}">Batafsil <i class="fas fa-long-arrow-alt-right margin-10px-left"></i></a>        
                             </div>
                         </div>
                     </div>

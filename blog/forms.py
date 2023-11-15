@@ -24,7 +24,7 @@ class BootstrapStyleMixin:
 class BlogForm(forms.ModelForm):
     class Meta:
         model = Blogs
-        fields = ('title', 'content', 'image', 'category', 'tags')
+        fields = ('title', 'about_title', 'content', 'image', 'category', 'tags')
         
         
 class CustomBlogForm(BootstrapStyleMixin, BlogForm):
@@ -32,7 +32,7 @@ class CustomBlogForm(BootstrapStyleMixin, BlogForm):
         queryset=Tags.objects.all(),
         widget=forms.CheckboxSelectMultiple,
     )
-    field_names = ['title', 'content', 'image', 'category', 'tags']
+    field_names = ['title', 'about_title', 'content', 'image', 'category', 'tags']
     
     
     

@@ -91,6 +91,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media'
             ],
         },
     },
@@ -105,15 +106,15 @@ WSGI_APPLICATION = 'mohirbitiruvchi.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        # 'ENGINE': 'django.db.backends.sqlite3',
+        # 'NAME': BASE_DIR / 'db.sqlite3',
         
-        # 'ENGINE': 'django.db.backends.postgresql',
-        # 'NAME': env('DB_NAME'),
-        # 'HOST': env('DB_HOST'),
-        # 'PORT': '5432',
-        # 'USER': env('DB_USER'),
-        # 'PASSWORD': env('DB_PASSWORD')
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': env('DB_NAME'),
+        'HOST': env('DB_HOST'),
+        'PORT': '5432',
+        'USER': env('DB_USER'),
+        'PASSWORD': env('DB_PASSWORD')
     }
 }
 
@@ -133,7 +134,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    }, 
 ]
 
 
@@ -154,13 +155,16 @@ AUTH_USER_MODEL = 'accounts.CustomUser'
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 
-STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), ]
-MEDIA_URL = '/media/'
-# MEDIA_ROOT = 'Users/User/Desktop/Deployment/Mb.uz/media/'
-MEDIA_ROOT = BASE_DIR / 'media/'
+STATIC_URL = '/static/'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+MEDIA_URL = '/media/'
+
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), ]
+
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+MEDIA_ROOT = BASE_DIR / 'media/'
+
+
 FAVICON_PATH = os.path.join(BASE_DIR, 'static', 'favicon.png')
 
 STATICFILES_FINDERS = [

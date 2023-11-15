@@ -22,17 +22,3 @@
     transform: rotateY(180deg);
 }
 
-
-@keyframes slideInUp {
-    0% {
-        transform: translate3d(0,100%,0);
-        visibility: visible
-    }
-
-    to {
-        transform: translateZ(0)
-    }
-}
-.slideInUp {
-    animation-name: slideInUp
-}

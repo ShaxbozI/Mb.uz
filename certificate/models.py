@@ -1,4 +1,5 @@
 from django.db import models
+from django.forms import ValidationError
 
 
 class Courses(models.Model):
@@ -8,15 +9,20 @@ class Courses(models.Model):
 
 
 class Certificate(models.Model):
+    def validate_integer(value): 
+        try:
+            int(value)
+        except ValueError:
+            raise ValidationError("Faqat son kiriting")
     name = models.CharField(max_length=80)
     last_name = models.CharField(max_length=80)
     course_name = models.ForeignKey(Courses, on_delete=models.SET_NULL, null=True)
     email = models.EmailField(max_length=80)
-    phone_number = models.IntegerField()
+    phone_number = models.CharField(max_length=13, validators=[validate_integer])
     def __str__(self):
         return self.name
     def get_full_name(self):
-        return f'{self.name} {self.last_name}'
+        return f'{self.name} {self.last_name}' 
     
     
     

@@ -33,20 +33,22 @@
             <div class="container-fluid justify-content-between">
                 <div class=" d-flex">
                     <a class="navbar-brand fs-4 me-2" href="{% url 'home' %}">MohirBitiruvchi</a>
-                    {% if request.user.status_teacher %}
-                        <span class="wrapper-info-text my-auto fs-4">
-                            <i class="fa-solid fa-crown" style="color: #ff9500;"></i>
-                            <span class="info-text">
-                                Foydalanuvchi statusi O'qituvchi
+                    {% if request.user %}
+                        {% if request.user.status_teacher %}
+                            <span class="wrapper-info-text my-auto fs-4">
+                                <i class="fa-solid fa-crown" style="color: #ff9500;"></i>
+                                <span class="info-text">
+                                    Foydalanuvchi statusi O'qituvchi
+                                </span>
                             </span>
-                        </span>
-                    {% elif request.user.status_student %}
-                        <span class="wrapper-info-text my-auto fs-4">
-                                <i class="fa-solid fa-graduation-cap" style="color: #000000;"></i>
-                            <span class="info-text">
-                                Foydalanuvchi statusi Talaba
+                        {% elif request.user.status_student %}
+                            <span class="wrapper-info-text my-auto fs-4">
+                                    <i class="fa-solid fa-graduation-cap" style="color: #000000;"></i>
+                                <span class="info-text">
+                                    Foydalanuvchi statusi Talaba
+                                </span>
                             </span>
-                        </span>
+                        {% endif %}
                     {% endif %}
                 </div>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -96,7 +98,7 @@
                                         <li><a class="dropdown-item" href="{% url 'send_mail' %}">O'qituvchilarga xabar</a></li>
                                     {% endif %}
                                     <li><a class="dropdown-item" href="{% url 'profile' %}">Hisob malumotlari</a></li>
-                                    {% if request.user.status_student or request.user.is_staff %}
+                                    {% if request.user.status_student or request.user.is_staff or request.user.status_teacher %}
                                         <li><a class="dropdown-item" href="{% url 'add_blogs' %}">Maqola qo'shish</a></li>
                                     {% endif %}
                                     <li><a class="dropdown-item" href="{% url 'logout' %}">Chiqish<i class="fa-solid fa-right-from-bracket ms-2"></i></a></li>

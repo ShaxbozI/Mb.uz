@@ -78,13 +78,11 @@ class CustomTeacherSendMailForm(BootstrapStyleMixin, TeacherSendMailForm):
     
     
 class CustomTeacherAndStudentForm(BootstrapStyleMixin, TeacherAndStudentForm):
-    field_names = ['name', 'last_name', 'info', 'image', 'email_link', 'linkedin', 'course', 'status']
+    field_names = ['name', 'last_name', 'info', 'image', 'email_link', 'linkedin', 'course', 'jobs', 'status']
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         if self.field_names:
             for fieldname in self.field_names:
-                if fieldname == 'course':
-                    self.fields[fieldname].empty_label = "Kursni tanlang"
                 if fieldname == 'status':
                     self.fields[fieldname].empty_label = "Statusni tanlang"
         else:
@@ -92,7 +90,7 @@ class CustomTeacherAndStudentForm(BootstrapStyleMixin, TeacherAndStudentForm):
     
     
 class CustomEventsForm(BootstrapStyleMixin, EventsForm):
-    field_names = ['title', 'description', 'image', 'start_data', 'event_link']
+    field_names = ['title', 'speaker', 'description', 'image', 'start_data', 'event_link']
     
     
 class CustomProjectsForm(BootstrapStyleMixin, ProjectsForm):

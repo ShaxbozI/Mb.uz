@@ -12,6 +12,7 @@ whitenoise = "*"
 django-hitcount = "*"
 gunicorn = "*"
 django-environ = "*"
+pytz = "*"
 
 [dev-packages]
 

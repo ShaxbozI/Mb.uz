@@ -8,13 +8,13 @@ from django.dispatch import receiver
 
 
 class CustomUser(AbstractUser):
-    def validate_integer(value):
+    def validate_integer(value):  
         try:
             int(value)
         except ValueError:
             raise ValidationError("Faqat son kiriting")
     profile_picture = models.ImageField(upload_to='images/users', default='images/default_picture_tands.png')
-    phone_number = models.CharField(max_length=13, default=123456789123, validators=[validate_integer])
+    phone_number = models.CharField(max_length=13, validators=[validate_integer], blank=True, null=True)
     certificate_number = models.CharField(max_length=20, blank=True, null=True)
     status_student = models.BooleanField(default=False)
     status_teacher = models.BooleanField(default=False)

@@ -1,10 +1,8 @@
 from django.utils import timezone
 from django.db import models
 from django.utils.text import slugify
-from django.db.models.signals import pre_save, post_save, post_delete, post_init
-from multiselectfield import MultiSelectField, MultiSelectFormField
+from django.db.models.signals import pre_save
 from django.dispatch import receiver
-from django.db.models.signals import m2m_changed
 from accounts.models import CustomUser
 from ckeditor.fields import RichTextField
 
@@ -28,7 +26,7 @@ class Blogs(models.Model):
         
     title = models.CharField(max_length=200, unique=True)
     slug = models.SlugField(max_length=200, unique=True, blank=True)
-    # about_title = models.CharField(max_length=100)
+    about_title = models.CharField(max_length=100)
     content = RichTextField()
     author = models.ForeignKey(CustomUser, on_delete= models.CASCADE)
     image = models.ImageField(upload_to='images/blogs', default='images/default_picture_project.png')
@@ -38,7 +36,7 @@ class Blogs(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
-        return self.title
+        return self.title 
     
         
 

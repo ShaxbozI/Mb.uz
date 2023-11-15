@@ -100,14 +100,21 @@
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item">{{ one_student.name }}</li>
                                 <li class="list-group-item">{{ one_student.last_name }}</li>
-                                <li class="list-group-item">{{ one_student.course }}</li>
+                                {% for course in one_student.course.all %}
+                                <li class="list-group-item">{{ course }}</li>
+                                {% endfor %}
                             </ul>
                             <div class="card-body">
                                 <h5 class="card-title">Qisqacha malumot</h5>
-                                <p class="card-text">{{ one_student.info }}</p>
+                                <p class="card-text">{{ one_student.info|safe }}</p>
                             </div>
                             <div class="card-body">
-                                <a href="{{ one_student.linkedin }}" class="card-link text-decoration-none"><i class="bi bi-linkedin me-1"></i></a>
+                                <a href="{{ one_student.linkedin }}" class="card-link text-decoration-none me-3"><i class="bi bi-linkedin me-1"></i>Linkedin</a>
+                                {% if one_student.email_link %}
+                                <a href="mailto:{{ one_student.email_link }}" class="py-3 px-4 ps-0 text-decoration-none">
+                                    <i class="fa-regular fa-envelope me-2"></i>Email
+                                </a>
+                                {% endif %}
                             </div>
                         </div>
                 </div>

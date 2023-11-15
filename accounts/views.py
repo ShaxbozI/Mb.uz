@@ -8,11 +8,24 @@ from .models import CustomUser
 from blog.models import Blogs
 from certificate.models import NumberCertificate
 
-from .forms import CustomRegisterForm, CustomLoginForm, CustomResetPasswordForm, CustomSetPassForm, ProfileEditForm
+from .forms import CustomRegisterForm, CustomLoginForm, CustomResetPasswordForm, CustomSetPassForm, ProfileEditForm, CustomEmailForm
 from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView
 
 from .tasks import send_email
+from django.core.mail import send_mail
 
+
+import re
+
+def is_valid_email(email):
+    # Email manzilini tekshirish uchun regulyarniy ifoda
+    email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+    
+    # Regulyarniy ifoda orqali tekshirish
+    if re.match(email_regex, email):
+        return True
+    else:
+        return False
 
 
 
@@ -21,9 +34,11 @@ class AuthView(View):
     def get(self, request):
         login_form = CustomLoginForm()
         register_form = CustomRegisterForm()
+        email_form = CustomEmailForm()
         context = {
             'login_form': login_form,
             'register_form': register_form,
+            'email_form': email_form,
         }
         return render(request, 'accounts/login_register.html', context)
     
@@ -32,7 +47,7 @@ class AuthView(View):
 
         if form == 'login':
             login_form = CustomLoginForm(data=request.POST)
-            register_form = CustomRegisterForm(data=request.POST)
+            register_form = CustomRegisterForm()
             if login_form.is_valid():
                 data = login_form.cleaned_data
                 user = authenticate(request, username=data['username'], password=data['password'])
@@ -56,9 +71,9 @@ class AuthView(View):
                 }
                 return render(request, 'accounts/login_register.html', context)
         
-        elif form == 'register':
-            login_form = CustomLoginForm(request.POST)
-            register_form = CustomRegisterForm(request.POST)
+        if form == 'register':
+            login_form = CustomLoginForm()
+            register_form = CustomRegisterForm(request.POST, request.FILES)
             if register_form.is_valid():
                 certificate = register_form.cleaned_data.get('certificate_number')
                 email = register_form.cleaned_data.get('email')
@@ -79,20 +94,24 @@ class AuthView(View):
                             # certifikat tekshiruvdan o'tdi
                             # endi emailni tekshiramiz kiritilgan emaildan biror foydalanuvchi faoydalanmayotgan bo'lishi kerak
                             if email:
-                                # biror foydalanuvchi faoydalanmayotganni tekshirish
-                                user_email = CustomUser.objects.filter(email=email).first()
-                                if user_email:
-                                    print(user_email.status_teacher)
-                                    if user_email.status_teacher:
-                                        messages.success(request, f"Assalomu aleykum ustoz {user_email.username} siz allaqachon admin tomonidan ro'yhatdan o'tkazilgansiz. Maxfiy so'zni qayta tiklash sahifasiga o'tib maxfiy so'z o'rnatishingiz mumkin!")
-                                        return redirect(reverse('authenticated'))
+                                if is_valid_email(email):
+                                    # biror foydalanuvchi faoydalanmayotganni tekshirish
+                                    user_email = CustomUser.objects.filter(email=email).first()
+                                    if user_email:
+                                        if user_email.status_teacher:
+                                            messages.success(request, f"Assalomu aleykum ustoz {user_email.username} siz allaqachon admin tomonidan ro'yhatdan o'tkazilgansiz. Maxfiy so'zni qayta tiklash sahifasiga o'tib maxfiy so'z o'rnatishingiz mumkin!")
+                                            return redirect(reverse('authenticated'))
+                                        else:
+                                            messages.error(request, "Siz kiritgan Email allaqachon faydalanilmoqda!")
+                                            return render(request, 'accounts/login_register.html', context)
                                     else:
-                                        messages.error(request, "Siz kiritgan Email allaqachon faydalanilmoqda!")
-                                        return render(request, 'accounts/login_register.html', context)
+                                        # certificat va email tekshiruvdan o'tsa userni saqlash
+                                        register_form.save()
+                                        return redirect(reverse('authenticated'))
                                 else:
-                                    # certificat va email tekshiruvdan o'tsa userni saqlash
-                                    register_form.save()
+                                    messages.error(request, "Noto'gri email manzilini kiritdingiz!")
                                     return redirect(reverse('authenticated'))
+                                
                         else:
                             messages.error(request, "Siz kiritgan sertifikat raqami boshqa Bitiruvchiga tegshli!")
                             return render(request, 'accounts/login_register.html', context)
@@ -101,7 +120,7 @@ class AuthView(View):
                         return render(request, 'accounts/login_register.html', context)
                     
                 # emailni tekshirish
-                elif email:
+                if email:
                     user_email = CustomUser.objects.filter(email=email).first()
                     if user_email:
                         if user_email.status_teacher:
@@ -114,6 +133,10 @@ class AuthView(View):
                     else:
                         register_form.save()
                         return redirect(reverse('authenticated'))
+                elif not email:
+                    messages.error(request, "Iltimos emailingizni kiriting!")
+                    return render(request, 'accounts/login_register.html', context)
+                    
                     
             else:
                 context = {
@@ -125,6 +148,25 @@ class AuthView(View):
                 return render(request, 'accounts/login_register.html', context)
             
             
+        # if form == 'email':
+        #     login_form = CustomLoginForm()
+        #     register_form = CustomRegisterForm()
+        #     email_form = CustomEmailForm()
+        #     context = {
+        #         'login_form': login_form,
+        #         'register_form': register_form,
+        #         'email_form': email_form,
+        #     }
+        #     email_form = CustomEmailForm(request.POST)
+        #     if email_form.is_valid():
+        #         email = email_form.cleaned_data.get('email')
+        #         user_email = CustomUser.objects.filter(email=email).first()
+        #         if user_email:
+        #             messages.error(request, "Siz kiritgan Email allaqachon faydalanilmoqda!")
+        #             return render(request, 'accounts/login_register.html', context)
+            
+               
+        
  
 
 class ProfileEdit(View):
@@ -146,6 +188,8 @@ class ProfileView(View):
     def post(self, request):
         form_update = ProfileEditForm(instance = request.user, data = request.POST, files=request.FILES)
         if form_update.is_valid():
+            profile_picture = form_update.cleaned_data.get('profile_picture')
+            print(profile_picture)
             form_update.save()
             phone_number = form_update.cleaned_data.get('phone_number')
             return redirect('profile')

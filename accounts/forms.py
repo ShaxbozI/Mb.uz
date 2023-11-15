@@ -107,7 +107,21 @@ class CustomSetPassForm(BootstrapStyleMixin, SetPasswordForm):
     
     
     
-    
+
+
+class CustomEmailForm(forms.Form):
+    email = forms.EmailField()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs) 
+        
+        if self.fields:
+            for fieldname in self.fields:
+                self.fields[fieldname].widget.attrs = {'class': 'form-control mt-1'}
+        else:
+            raise ValueError('The field_names must be set')
+
+
+
 
 
 
@@ -128,7 +142,7 @@ class ContactForm(forms.ModelForm):
         message.save()
          
         if message.email:
-            send_email.delay(
+            send_mail(
                 "Mohirbitiruvchi qayta_aloqa",
                 f"Assalomu aleykum {message.name} siz Mohirbitiruvchiga xabar yo'ladingiz. Biz uni tez orada ko'rib chiqamiz va sizga bu haqida xabar qilamiz. Hurmat bilan https://MohirBitiruvchi.uz jamoasi",
                 "abdullayevshaxboz1957@gmail.com",

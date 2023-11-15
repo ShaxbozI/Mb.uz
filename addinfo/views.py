@@ -32,9 +32,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 class HomeTemplateView(View):
     def get(self, request):
         events = Events.objects.all().order_by('-id')[:1]
-        students = TeacherAndStudent.objects.all().filter(status = 'ST').order_by('-id')[:4]
+        students = TeacherAndStudent.objects.all().filter(status = 'ST').order_by('-id')[:1]
         teachers = TeacherAndStudent.objects.all().filter(status = 'TC')[:10]
-        projects = Projects.objects.all().order_by('-id')[:4]
+        projects = Projects.objects.all().order_by('-id')[:3]
         
         context = {
             'events': events,
@@ -448,8 +448,8 @@ class SendMessageTeacherView(LoginRequiredMixin, View):
             send_mail.save()
             
             for teacher in teachers:
-                print(teacher.email)
-                send_email.delay(
+                if teacher.email:
+                    send_email.delay(
                     title[0],
                     message[0],
                     "abdullayevshaxboz1957@gmail.com",

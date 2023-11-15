@@ -8,17 +8,17 @@
     cursor: pointer;
 }
 
-.wrapper-info-text{
+.wrapper-info-text{ 
     position: relative;
 }
 
 .info-text{
-    display: inline-block;
     position: absolute;
+    display: inline-block;
     max-width: max-content;
-    text-indent: -100%;
+    text-indent: -150%;
     font-size: 12px;
-    transform: translate(-30%, 160%);
+    transform: translate(80%, 160%);
     opacity: 0;
 }
 .wrapper-info-text:hover .info-text{
@@ -208,7 +208,7 @@ main >div{
     position: relative;
     font-family: sans-serif;
     width: 220px;
-    height: 320px;
+    height: 350px;
     background: #fff;
     padding: 30px 20px;
     border-radius: 10px;
@@ -219,20 +219,23 @@ main >div{
 .profile-card .img{
     position: relative;
     width: 100%;
-    height: 100%;
+    height: 200px;
+    background-color: #F7F6F4;
     transform: translateY(-70px);
     transition: .6s;
     z-index: 99;
 }
 .img img{
     width: 100%;
+    height: 100%;
+    image-orientation: from-image;
     border-radius: 10px;
     box-shadow: 0 0 22px #3336;
     transition: .6s;
 }
 .caption{
     text-align: center;
-    transform: translateY(-130px);
+    transform: translateY(-60px);
     transition: .6s;
 }
 .caption h4, .caption h3{

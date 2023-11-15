@@ -6,7 +6,7 @@
     <div class="row justify-content-center align-items-center">
         <div class="col-12 col-md-5">
             <div class="image-card text-center bg-white rounded px-3 py-3">
-                <img src="{{ user.profile_picture.url }}" alt="Admin" class="rounded-circle" width="150" height="150">
+                <img src="{{ user.profile_picture.url }}" alt="user" class="rounded-circle" width="150" height="150">
                 <div class="card-body mt-3">
                     <h4>{{ user.username }}</h4>
                     <p class="text-secondary mb-1">Ro'yhatdan o'tilgan {{ user.date_joined|date:"d.m.Y" }}</p>
@@ -141,7 +141,7 @@
                 <h5 class="text-center">
                     Shaxsiy malumotlarni o'zgartirish
                 </h5>
-                <form action="" method="post"> 
+                <form action="" method="post" enctype="multipart/form-data"> 
                     {% csrf_token %}
                     <!-- {{form}} -->
                     <div class="input-group my-3">
@@ -158,14 +158,7 @@
                         {{form.email}}
                     </div>
                     <div class="mt-2">
-                        <div class="feedback fs-6 text-body-tertiary d-flex justify-content-between text-center">
-                            <span>Hozirgi rasm</span>
-                            <a href="{{ user.profile_picture.url }}" class="text-warning d-block text-center">{{ user.profile_picture.url }}</a>
-                        </div>
-                        <div class="input-group mb-3">
-                            <label class="input-group-text" for="id_profile_picture">Tanlang</label>
-                            <input type="file" class="form-control" id="id_profile_picture">
-                        </div>
+                        {{form.profile_picture}}
                     </div>
                     <span class="text-danger d-block text-center p-2">{{ message }}</span>
                     <button type="submit" class="btn btn-outline-primary w-100 mt-2">O'zgartirish</button>
